@@ -1,13 +1,20 @@
 import * as SQLite from 'expo-sqlite';
 
-const db = await SQLite.openDatabaseAsync('eco_challenge.db');
+let dbInstance = null;
+
+export const getDb = async () => {
+  if (!dbInstance) {
+    dbInstance = await SQLite.openDatabaseAsync('eco_challenge.db');
+  }
+  return dbInstance;
+};
 
 export const iniciarDatabase = async () => {
   try {
-    // Activar claves foráneas
+    const db = await getDb();
+
     await db.runAsync('PRAGMA foreign_keys = ON;');
 
-    // Crear tablas si no existen
     await db.runAsync(`
       CREATE TABLE IF NOT EXISTS Usuarios (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

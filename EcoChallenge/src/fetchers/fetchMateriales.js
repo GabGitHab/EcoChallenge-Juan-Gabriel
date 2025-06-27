@@ -1,9 +1,10 @@
-import db from '../db/database';
+import { getDb } from '../db/database';
 
 export const agregarMaterial = async (material) => {
   const { nombre, categoria, imagen } = material;
 
   try {
+    const db = await getDb();
     await db.runAsync(
       `INSERT INTO materiales_reciclables (nombre, categoria, imagen)
        VALUES (?, ?, ?);`,
@@ -17,6 +18,7 @@ export const agregarMaterial = async (material) => {
 
 export const obtenerMateriales = async () => {
   try {
+    const db = await getDb();
     const result = await db.getAllAsync(
       'SELECT * FROM materiales_reciclables;',
       []
@@ -30,6 +32,7 @@ export const obtenerMateriales = async () => {
 
 export const obtenerMaterialPorId = async (id) => {
   try {
+    const db = await getDb();
     const result = await db.getFirstAsync(
       'SELECT * FROM materiales_reciclables WHERE id = ?;',
       [id]
@@ -43,6 +46,7 @@ export const obtenerMaterialPorId = async (id) => {
 
 export const eliminarMaterialPorId = async (id) => {
   try {
+    const db = await getDb();
     await db.runAsync(
       'DELETE FROM materiales_reciclables WHERE id = ?;',
       [id]
@@ -57,6 +61,7 @@ export const modificarMaterial = async (materialMod) => {
   const { id, nombre, categoria, imagen } = materialMod;
 
   try {
+    const db = await getDb();
     await db.runAsync(
       `UPDATE materiales_reciclables 
        SET nombre = ?, categoria = ?, imagen = ? 

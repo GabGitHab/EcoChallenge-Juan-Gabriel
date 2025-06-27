@@ -1,26 +1,33 @@
-import db from '../db/database';
+import { Alert } from 'react-native';
+import { getDb } from '../db/BaseDeDatos';
 
 // Agregar usuario
 export const agregarUsuario = async (usuario) => {
   const { nombre, email, edad, barrio, fotoPerfil, puntajeTotal = 0 } = usuario;
 
   try {
+    const db = await getDb();
+
     await db.runAsync(
       `INSERT INTO usuarios (nombre, email, edad, barrio, fotoPerfil, puntajeTotal) 
        VALUES (?, ?, ?, ?, ?, ?);`,
       [nombre, email, edad, barrio, fotoPerfil, puntajeTotal]
     );
-    console.log('Usuario insertado');
+    Alert.alert('Usuario insertado');
+    console.log("usuario insertado");
   } catch (error) {
     console.log('Error al insertar usuario:', error);
+    Alert.alert('Error al insertar usuario:', error);
   }
 };
 
 // Obtener todos los usuarios
-export const obtenerUsuarios = async () => {
+export const obtenerUsuarios = async () => {  
   try {
+    const db = await getDb();
     const result = await db.getAllAsync('SELECT * FROM usuarios;');
     return result;
+    console.log('Usuarios obtenidos:');
   } catch (error) {
     console.log('Error al obtener usuarios:', error);
     return [];
@@ -28,19 +35,21 @@ export const obtenerUsuarios = async () => {
 };
 
 // Obtener usuario por email
-export const obtenerUsuarioPorEmail = async (email) => {
+export const obtenerUsuarioPorNombre = async (nombre) => {
   try {
-    const result = await db.getFirstAsync('SELECT * FROM usuarios WHERE email = ?;', [email]);
+    const db = await getDb();
+    const result = await db.getAllAsync('SELECT * FROM usuarios WHERE nombre = ?;', [nombre]);
     return result;
   } catch (error) {
     console.log('Error al obtener usuario:', error);
-    return null;
+    return [];
   }
 };
 
 // Eliminar usuario por ID
 export const eliminarUsuarioPorId = async (id) => {
   try {
+    const db = await getDb();
     await db.runAsync('DELETE FROM usuarios WHERE id = ?;', [id]);
     console.log('Usuario eliminado');
   } catch (error) {
@@ -53,6 +62,7 @@ export const modificarUsuario = async (usuarioMod) => {
   const { id, nombre, email, edad, barrio, fotoPerfil, puntajeTotal } = usuarioMod;
 
   try {
+    const db = await getDb();
     await db.runAsync(
       `UPDATE usuarios 
        SET nombre = ?, email = ?, edad = ?, barrio = ?, fotoPerfil = ?, puntajeTotal = ? 

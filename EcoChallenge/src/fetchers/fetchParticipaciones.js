@@ -1,9 +1,10 @@
-import db from '../db/database';
+import { getDb } from '../db/BaseDeDatos';
 
 export const agregarParticipacion = async (p) => {
   const { id_usuario, id_reto, foto, latitud, longitud, comentario, estadoDeRevision } = p;
 
   try {
+    const db = await getDb();
     await db.runAsync(
       `INSERT INTO participaciones 
        (id_usuario, id_reto, foto, latitud, longitud, comentario, estadoDeRevision)
@@ -18,6 +19,7 @@ export const agregarParticipacion = async (p) => {
 
 export const obtenerParticipaciones = async () => {
   try {
+    const db = await getDb();
     const result = await db.getAllAsync('SELECT * FROM participaciones;');
     return result;
   } catch (error) {
@@ -28,6 +30,7 @@ export const obtenerParticipaciones = async () => {
 
 export const obtenerParticipacionPorId = async (id) => {
   try {
+    const db = await getDb();
     const result = await db.getFirstAsync('SELECT * FROM participaciones WHERE id = ?;', [id]);
     return result;
   } catch (error) {
@@ -38,6 +41,7 @@ export const obtenerParticipacionPorId = async (id) => {
 
 export const eliminarParticipacionPorId = async (id) => {
   try {
+    const db = await getDb();
     await db.runAsync('DELETE FROM participaciones WHERE id = ?;', [id]);
     console.log('Participación eliminada');
   } catch (error) {
@@ -49,6 +53,7 @@ export const modificarParticipacion = async (participacionModificada) => {
   const { id, id_usuario, id_reto, foto, latitud, longitud, comentario, estadoDeRevision } = participacionModificada;
 
   try {
+    const db = await getDb();
     await db.runAsync(
       `UPDATE participaciones 
        SET id_usuario = ?, id_reto = ?, foto = ?, latitud = ?, longitud = ?, comentario = ?, estadoDeRevision = ? 
@@ -63,6 +68,7 @@ export const modificarParticipacion = async (participacionModificada) => {
 
 export const obtenerParticipacionesPorUsuario = async (id_usuario) => {
   try {
+    const db = await getDb();
     const result = await db.getAllAsync(
       'SELECT * FROM participaciones WHERE id_usuario = ?;',
       [id_usuario]

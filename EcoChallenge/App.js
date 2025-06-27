@@ -11,8 +11,11 @@ import { logOut } from './src/session/ServiciosSession';
 
 export default function App() {
   useEffect(() => {
-      iniciarDatabase();
-      logOut(); // Cerramos la sesion anterior si existe
+      const iniciar = async () =>{
+        await iniciarDatabase();
+              logOut();       // Cerramos la sesion anterior si existe
+      }
+      iniciar();
   }, []);
   
   return (

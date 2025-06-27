@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Alert, Image, View, SafeAreaView, ScrollView, KeyboardAvoidingView } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import InputTexto from "../../components/InputTexto";
 import Boton from "../../components/Boton";
+import { agregarUsuario } from "../../fetchers/fetchUsuarios";
 
 //Creamos los estados del registro
 const RegistroUsuario = ({ navegacion }) => {
     const [nombre, setNombre] = useState("")
-    const [correoElectronico, setCorreoElectronico] = useState("")
+    const [email, setEmail] = useState("")
     const [edad, setEdad] = useState("")
     const [barrio, setBarrio] = useState("")
     const [fotoPerfil, setFotoPerfil] = useState("")
@@ -15,10 +15,10 @@ const RegistroUsuario = ({ navegacion }) => {
     //Funcion para volver a los estados 
     function LimpiarDatos() {
         setNombre("")
-        setCorreoElectronico("")
+        setEmail("")
         setEdad("")
         setBarrio("")
-        // setFotoPerfil("")
+        setFotoPerfil("")
 
     }
 
@@ -32,7 +32,7 @@ const RegistroUsuario = ({ navegacion }) => {
             Alert.alert("Debe completar el campo con su Nombre completo");
             return;
         };
-        if (!correoElectronico.trim() || correoElectronico.indexOf("@") === -1) {
+        if (!email.trim() || email.indexOf("@") === -1) {
             Alert.alert("Debe ingresar un correo electronico");
             return;
         };
@@ -44,31 +44,30 @@ const RegistroUsuario = ({ navegacion }) => {
             Alert.alert("Debe completar el campo con ell nombre de su Barrio o Zona")
         };
 
-        try {
-
             const usuario = { //Creamos el objeto Usuario
                 nombre,
-                correoElectronico,
+                email,
                 edad,
                 barrio,
-                fotoPerfil: fotoPerfil || fotoPerfilPredefinida
-            } // Si el usuario no sube foto de perfil, asignamos la predeterminada que tenemos guardada
+                fotoPerfil: fotoPerfil ? fotoPerfil : "https://example.com/default-profile.png", 
+            }; // Si el usuario no sube foto de perfil, asignamos la predeterminada que tenemos guardada
 
-            await AsyncStorage.setItem(correoElectronico, JSON.stringify(usuario)); // Lo Guardamos en el AsyncStorage con la key correoElectronico
-            LimpiarDatos(); // Llamamos a la funcion para que vacie los campos una vez guardados
-            Alert.alert("Su usuario se registro con exito!") // Avisamos al usuario que se registro correctamente
+        try {
+            await agregarUsuario(usuario); // <- usando await
+            Alert.alert("Usuario registrado correctamente x2");
+            LimpiarDatos();
+             // si querés volver a otra pantalla
+        }finally{
+            navegacion.navigate("Inicio");
         }
-        catch (error) {
-            console.error(error);
-            Alert.alert("Error al registrar usuario.")
-        }
-    }
+
+ };
     return (
         <SafeAreaView style={{ paddingTop: 80 }} >
             <View >
-                <View >
-                    <ScrollView>
-                        <KeyboardAvoidingView >
+                <View scrollEnabled={true}>
+                    <KeyboardAvoidingView >
+                        <ScrollView>
                             <InputTexto
                                 placeholder="Nombre de Usuario"
                                 onChangeText={setNombre}
@@ -77,8 +76,8 @@ const RegistroUsuario = ({ navegacion }) => {
                             <InputTexto
                                 placeholder="Correo Electronico"
                                 keyboardType="email-address"
-                                onChangeText={setCorreoElectronico}
-                                value={correoElectronico}
+                                onChangeText={setEmail}
+                                value={email}
                             />
                             <InputTexto
                                 placeholder="Edad"
@@ -101,8 +100,8 @@ const RegistroUsuario = ({ navegacion }) => {
                                 titulo="Guardar Usuario"
                                 evento={registrarUsuario}
                             />
-                        </KeyboardAvoidingView>
-                    </ScrollView>
+                        </ScrollView>
+                    </KeyboardAvoidingView>
                 </View>
             </View>
         </SafeAreaView>)

@@ -3,7 +3,7 @@ import Boton from "../../components/Boton";
 
 const MenuUsuario = ({ navigation }) => {
     return (
-        <View style={styles.container}>
+        <View style={styles.container} scrollEnabled={true}>
             <Text style={styles.titulo}>Usuario</Text>
             <Boton
                 backgroundColor="#d3ffbb"
@@ -19,6 +19,11 @@ const MenuUsuario = ({ navigation }) => {
                 backgroundColor="#d3ffbb"
                 titulo="Borrar Usuario"
                 evento={() => navigation.navigate("BorrarUsuario")}
+            />
+            <Boton
+                backgroundColor="#d3ffbb"
+                titulo="Ver usuarios"
+                evento={() => navigation.navigate("ListadoUsuarios")}
             />
         </View>
     );
