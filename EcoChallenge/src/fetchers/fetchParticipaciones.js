@@ -1,75 +1,75 @@
 import db from '../db/database';
 
-export const agregarParticipacion = (p, callback) => {
+export const agregarParticipacion = async (p) => {
   const { id_usuario, id_reto, foto, latitud, longitud, comentario, estadoDeRevision } = p;
 
-  db.transactionAsync(tx => {
-    tx.executeSql(
+  try {
+    await db.runAsync(
       `INSERT INTO participaciones 
        (id_usuario, id_reto, foto, latitud, longitud, comentario, estadoDeRevision)
        VALUES (?, ?, ?, ?, ?, ?, ?);`,
-      [id_usuario, id_reto, foto, latitud, longitud, comentario, estadoDeRevision],
-      (_, result) => callback?.(result),
-      (_, error) => { console.log('Error al insertar participación:', error); return false; }
+      [id_usuario, id_reto, foto, latitud, longitud, comentario, estadoDeRevision]
     );
-  });
+    console.log('Participación agregada');
+  } catch (error) {
+    console.log('Error al insertar participación:', error);
+  }
 };
 
-export const obtenerParticipaciones = (callback) => {
-  db.transactionAsync(tx => {
-    tx.executeSql(
-      'SELECT * FROM participaciones;',
-      [],
-      (_, result) => callback?.(result.rows._array),
-      (_, error) => { console.log('Error al obtener participaciones:', error); return false; }
-    );
-  });
+export const obtenerParticipaciones = async () => {
+  try {
+    const result = await db.getAllAsync('SELECT * FROM participaciones;');
+    return result;
+  } catch (error) {
+    console.log('Error al obtener participaciones:', error);
+    return [];
+  }
 };
 
-export const obtenerParticipacionPorId = (id, callback) => {
-  db.transactionAsync(tx => {
-    tx.executeSql(
-      'SELECT * FROM participaciones WHERE id = ?;',
-      [id],
-      (_, result) => callback?.(result.rows._array[0]),
-      (_, error) => { console.log('Error al obtener participación por ID:', error); return false; }
-    );
-  });
+export const obtenerParticipacionPorId = async (id) => {
+  try {
+    const result = await db.getFirstAsync('SELECT * FROM participaciones WHERE id = ?;', [id]);
+    return result;
+  } catch (error) {
+    console.log('Error al obtener participación por ID:', error);
+    return null;
+  }
 };
 
-export const eliminarParticipacionPorId = (id, callback) => {
-  db.transactionAsync(tx => {
-    tx.executeSql(
-      'DELETE FROM participaciones WHERE id = ?;',
-      [id],
-      (_, result) => callback?.(result),
-      (_, error) => { console.log('Error al eliminar participación:', error); return false; }
-    );
-  });
+export const eliminarParticipacionPorId = async (id) => {
+  try {
+    await db.runAsync('DELETE FROM participaciones WHERE id = ?;', [id]);
+    console.log('Participación eliminada');
+  } catch (error) {
+    console.log('Error al eliminar participación:', error);
+  }
 };
 
-export const modificarParticipacion = (participacionModificada, callback) => {
-  const { id_usuario, id_reto, foto, latitud, longitud, comentario, estadoDeRevision } = participacionModificada;
+export const modificarParticipacion = async (participacionModificada) => {
+  const { id, id_usuario, id_reto, foto, latitud, longitud, comentario, estadoDeRevision } = participacionModificada;
 
-  db.transactionAsync(tx => {
-    tx.executeSql(
+  try {
+    await db.runAsync(
       `UPDATE participaciones 
        SET id_usuario = ?, id_reto = ?, foto = ?, latitud = ?, longitud = ?, comentario = ?, estadoDeRevision = ? 
        WHERE id = ?;`,
-      [id_usuario, id_reto, foto, latitud, longitud, comentario, estadoDeRevision, id],
-      (_, result) => callback?.(result),
-      (_, error) => { console.log('Error al modificar participación:', error); return false; }
+      [id_usuario, id_reto, foto, latitud, longitud, comentario, estadoDeRevision, id]
     );
-  });
+    console.log('Participación modificada');
+  } catch (error) {
+    console.log('Error al modificar participación:', error);
+  }
 };
 
-export const obtenerParticipacionesPorUsuario = (id_usuario, callback) => {
-  db.transactionAsync(tx => {
-    tx.executeSql(
+export const obtenerParticipacionesPorUsuario = async (id_usuario) => {
+  try {
+    const result = await db.getAllAsync(
       'SELECT * FROM participaciones WHERE id_usuario = ?;',
-      [id_usuario],
-      (_, result) => callback?.(result.rows._array),
-      (_, error) => { console.log('Error al obtener participaciones por usuario:', error); return false; }
+      [id_usuario]
     );
-  });
+    return result;
+  } catch (error) {
+    console.log('Error al obtener participaciones por usuario:', error);
+    return [];
+  }
 };

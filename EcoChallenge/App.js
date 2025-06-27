@@ -6,7 +6,7 @@ import RootStack from './src/routes/RootStack';
 import { iniciarDatabase } from './src/db/BaseDeDatos';
 import { useEffect } from 'react';
 import { logOut } from './src/session/ServiciosSession';
-import * as SQLite from 'expo-sqlite';
+
 
 
 export default function App() {

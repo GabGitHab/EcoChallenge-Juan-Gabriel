@@ -1,63 +1,61 @@
 import db from '../db/database';
 
-export const agregarReto = (reto, callback) => {
+export const agregarReto = async (reto) => {
   const { titulo, descripcion, categoria, fechaLimite, puntajeAsign } = reto;
 
-  db.transactionAsync(tx => {
-    tx.executeSql(
+  try {
+    await db.runAsync(
       `INSERT INTO retos (titulo, descripcion, categoria, fechaLimite, puntajeAsign) 
        VALUES (?, ?, ?, ?, ?);`,
-      [titulo, descripcion, categoria, fechaLimite, puntajeAsign],
-      (_, result) => callback?.(result),
-      (_, error) => { console.log('Error al insertar reto:', error); return false; }
+      [titulo, descripcion, categoria, fechaLimite, puntajeAsign]
     );
-  });
+    console.log('Reto agregado');
+  } catch (error) {
+    console.log('Error al insertar reto:', error);
+  }
 };
 
-export const obtenerRetos = (callback) => {
-  db.transactionAsync(tx => {
-    tx.executeSql(
-      'SELECT * FROM retos;',
-      [],
-      (_, result) => callback?.(result.rows._array),
-      (_, error) => { console.log('Error al obtener retos:', error); return false; }
-    );
-  });
+export const obtenerRetos = async () => {
+  try {
+    const result = await db.getAllAsync('SELECT * FROM retos;');
+    return result;
+  } catch (error) {
+    console.log('Error al obtener retos:', error);
+    return [];
+  }
 };
 
-export const obtenerRetoPorId = (id, callback) => {
-  db.transactionAsync(tx => {
-    tx.executeSql(
-      'SELECT * FROM retos WHERE id = ?;',
-      [id],
-      (_, result) => callback?.(result.rows._array[0]),
-      (_, error) => { console.log('Error al obtener reto por ID:', error); return false; }
-    );
-  });
-};  
-
-export const eliminarRetoPorId = (id, callback) => {
-  db.transactionAsync(tx => {
-    tx.executeSql(
-      'DELETE FROM retos WHERE id = ?;',
-      [id],
-      (_, result) => callback?.(result),
-      (_, error) => { console.log('Error al eliminar reto:', error); return false; }
-    );
-  });
+export const obtenerRetoPorId = async (id) => {
+  try {
+    const result = await db.getFirstAsync('SELECT * FROM retos WHERE id = ?;', [id]);
+    return result;
+  } catch (error) {
+    console.log('Error al obtener reto por ID:', error);
+    return null;
+  }
 };
 
-export const modificarReto = (retoModificado, callback) => {
-  const { titulo, descripcion, categoria, fechaLimite, puntajeAsign } = retoModificado;
+export const eliminarRetoPorId = async (id) => {
+  try {
+    await db.runAsync('DELETE FROM retos WHERE id = ?;', [id]);
+    console.log('Reto eliminado');
+  } catch (error) {
+    console.log('Error al eliminar reto:', error);
+  }
+};
 
-  db.transactionAsync(tx => {
-    tx.executeSql(
+export const modificarReto = async (retoModificado) => {
+  const { id, titulo, descripcion, categoria, fechaLimite, puntajeAsign } = retoModificado;
+
+  try {
+    await db.runAsync(
       `UPDATE retos 
        SET titulo = ?, descripcion = ?, categoria = ?, fechaLimite = ?, puntajeAsign = ? 
        WHERE id = ?;`,
-      [titulo, descripcion, categoria, fechaLimite, puntajeAsign, id],
-      (_, result) => callback?.(result),
-      (_, error) => { console.log('Error al modificar reto:', error); return false; }
+      [titulo, descripcion, categoria, fechaLimite, puntajeAsign, id]
     );
-  });
+    console.log('Reto modificado');
+  } catch (error) {
+    console.log('Error al modificar reto:', error);
+  }
 };

@@ -1,72 +1,66 @@
 import db from '../db/database';
 
-// Funcion para agregar un usuario
-export const agregarUsuario = (usuario, callback) => {
-    //Desestructuramos el usuario del parametro
+// Agregar usuario
+export const agregarUsuario = async (usuario) => {
   const { nombre, email, edad, barrio, fotoPerfil, puntajeTotal = 0 } = usuario;
 
-//funcion para insertar un usuario en la base de datos
-
-  db.transactionAsync(tx => {
-    tx.executeSql(
+  try {
+    await db.runAsync(
       `INSERT INTO usuarios (nombre, email, edad, barrio, fotoPerfil, puntajeTotal) 
        VALUES (?, ?, ?, ?, ?, ?);`,
-      [nombre, email, edad, barrio, fotoPerfil, puntajeTotal],
-      (_, result) => callback?.(result),
-      (_, error) => { console.log('Error al insertar usuario:', error); return false; }
+      [nombre, email, edad, barrio, fotoPerfil, puntajeTotal]
     );
-  });
+    console.log('Usuario insertado');
+  } catch (error) {
+    console.log('Error al insertar usuario:', error);
+  }
 };
 
 // Obtener todos los usuarios
-export const obtenerUsuarios = (callback) => {
-  db.transactionAsync(tx => {
-    tx.executeSql(
-      'SELECT * FROM usuarios;',
-      [],
-      (_, result) => callback?.(result.rows._array),
-      (_, error) => { console.log('Error al obtener usuarios:', error); return false; }
-    );
-  });
+export const obtenerUsuarios = async () => {
+  try {
+    const result = await db.getAllAsync('SELECT * FROM usuarios;');
+    return result;
+  } catch (error) {
+    console.log('Error al obtener usuarios:', error);
+    return [];
+  }
 };
 
-export const obtenerUsuarioPorEmail = (email, callback) => {
-    db.transactionAsync(tx => {
-        tx.executeSql(
-            'SELECT * FROM usuarios WHERE email = ?;',
-            [email],
-            (_, result) => callback?.(result.rows._array[0]),
-            (_, error) => { console.log('Error al obtener usuario', error); return false;}
-        );
-    });
-  };
-
-
-//eliminar usuario por id
-export const eliminarUsuarioPorId = (id, callback) => {
-  db.transactionAsync(tx => {
-    tx.executeSql(
-      'DELETE FROM usuarios WHERE id = ?;',
-      [id],
-      (_, result) => callback?.(result),
-      (_, error) => { console.log('Error al eliminar usuario:', error); return false; }
-    );
-  });
+// Obtener usuario por email
+export const obtenerUsuarioPorEmail = async (email) => {
+  try {
+    const result = await db.getFirstAsync('SELECT * FROM usuarios WHERE email = ?;', [email]);
+    return result;
+  } catch (error) {
+    console.log('Error al obtener usuario:', error);
+    return null;
+  }
 };
 
-// Modificar usuario por id 
-export const modificarUsuario = (usuarioMod, callback) => {
-  const { nombre, email, edad, barrio, fotoPerfil, puntajeTotal } = usuarioMod;
+// Eliminar usuario por ID
+export const eliminarUsuarioPorId = async (id) => {
+  try {
+    await db.runAsync('DELETE FROM usuarios WHERE id = ?;', [id]);
+    console.log('Usuario eliminado');
+  } catch (error) {
+    console.log('Error al eliminar usuario:', error);
+  }
+};
 
-  db.transactionAsync(tx => {
-    tx.executeSql(
+// Modificar usuario por ID
+export const modificarUsuario = async (usuarioMod) => {
+  const { id, nombre, email, edad, barrio, fotoPerfil, puntajeTotal } = usuarioMod;
+
+  try {
+    await db.runAsync(
       `UPDATE usuarios 
        SET nombre = ?, email = ?, edad = ?, barrio = ?, fotoPerfil = ?, puntajeTotal = ? 
        WHERE id = ?;`,
-      [nombre, email, edad, barrio, fotoPerfil, puntajeTotal, id],
-      (_, result) => callback?.(result),
-      (_, error) => { console.log('Error al modificar usuario:', error); return false; }
+      [nombre, email, edad, barrio, fotoPerfil, puntajeTotal, id]
     );
-  });
+    console.log('Usuario modificado');
+  } catch (error) {
+    console.log('Error al modificar usuario:', error);
+  }
 };
-
