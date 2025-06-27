@@ -3,7 +3,7 @@ import db from '../db/database';
 export const agregarMaterial = (material, callback) => {
   const { nombre, categoria, imagen } = material;
 
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       `INSERT INTO materiales_reciclables (nombre, categoria, imagen)
        VALUES (?, ?, ?);`,
@@ -15,7 +15,7 @@ export const agregarMaterial = (material, callback) => {
 };
 
 export const obtenerMateriales = (callback) => {
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       'SELECT * FROM materiales_reciclables;',
       [],
@@ -26,7 +26,7 @@ export const obtenerMateriales = (callback) => {
 };
 
 export const obtenerMaterialPorId = (id, callback) => {
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       'SELECT * FROM materiales_reciclables WHERE id = ?;',
       [id],
@@ -38,7 +38,7 @@ export const obtenerMaterialPorId = (id, callback) => {
 
 
 export const eliminarMaterialPorId = (id, callback) => {
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       'DELETE FROM materiales_reciclables WHERE id = ?;',
       [id],
@@ -51,7 +51,7 @@ export const eliminarMaterialPorId = (id, callback) => {
 export const modificarMaterial = (materialMod, callback) => {
   const { nombre, categoria, imagen } = materialMod;
 
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       `UPDATE materiales_reciclables 
        SET nombre = ?, categoria = ?, imagen = ? 
@@ -61,4 +61,4 @@ export const modificarMaterial = (materialMod, callback) => {
       (_, error) => { console.log('Error al modificar material:', error); return false; }
     );
   });
-}
+};

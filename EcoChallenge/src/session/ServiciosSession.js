@@ -1,28 +1,31 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const usuario = obtenerSesion() ;
+// No podés usar `await` en el nivel superior si no estás en un `async function`
+let usuario; // Declaralo arriba
+(async () => {
+  usuario = await obtenerSesion(); // ejecutalo dentro de una IIFE (función autoejecutable)
+})();
 
 export const guardarSesion = async (usuario) => {
-    const usuarioJson = JSON.stringify(usuario);
-    await AsyncStorage.setItem('usuarioSesion', usuarioJson);
-    console.log('Sesión guardada');
-    return;
-}
+  const usuarioJson = JSON.stringify(usuario);
+  await AsyncStorage.setItem('usuarioSesion', usuarioJson);
+  console.log('Sesión guardada');
+};
 
 export const obtenerSesion = async () => {
-    const usuario = await AsyncStorage.getItem('usuarioSesion');
-    usuario = usuario.JSON();
-    if (usuario) {
-        console.log('Sesión obtenida');
-        return usuario;
-    } else {
-        console.log('No hay sesión guardada');
-        return null;
-    }
-} 
+  const usuarioJson = await AsyncStorage.getItem('usuarioSesion');
+
+  if (usuarioJson) {
+    const usuario = JSON.parse(usuarioJson); // CORREGIDO: .JSON() NO EXISTE
+    console.log('Sesión obtenida');
+    return usuario;
+  } else {
+    console.log('No hay sesión guardada');
+    return null;
+  }
+};
 
 export const logOut = async () => {
-    await AsyncStorage.removeItem('usuarioSesion');
-    console.log('Sesión cerrada');
-    return;
-}
+  await AsyncStorage.removeItem('usuarioSesion');
+  console.log('Sesión cerrada');
+};

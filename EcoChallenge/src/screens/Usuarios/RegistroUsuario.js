@@ -31,18 +31,18 @@ const RegistroUsuario = ({ navegacion }) => {
         if (!nombre.trim()) {
             Alert.alert("Debe completar el campo con su Nombre completo");
             return;
-        }
+        };
         if (!correoElectronico.trim() || correoElectronico.indexOf("@") === -1) {
             Alert.alert("Debe ingresar un correo electronico");
             return;
-        }
+        };
         if (!edad.trim() || parseInt(edad) < 1) {
             Alert.alert("Debe completar el campo con su Edad");
             return;
-        }
+        };
         if (!barrio.trim()) {
             Alert.alert("Debe completar el campo con ell nombre de su Barrio o Zona")
-        }
+        };
 
         try {
 
@@ -106,7 +106,7 @@ const RegistroUsuario = ({ navegacion }) => {
                 </View>
             </View>
         </SafeAreaView>)
-}
+};
 
 export default RegistroUsuario;
 

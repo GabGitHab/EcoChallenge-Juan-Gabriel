@@ -7,7 +7,7 @@ export const agregarUsuario = (usuario, callback) => {
 
 //funcion para insertar un usuario en la base de datos
 
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       `INSERT INTO usuarios (nombre, email, edad, barrio, fotoPerfil, puntajeTotal) 
        VALUES (?, ?, ?, ?, ?, ?);`,
@@ -20,7 +20,7 @@ export const agregarUsuario = (usuario, callback) => {
 
 // Obtener todos los usuarios
 export const obtenerUsuarios = (callback) => {
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       'SELECT * FROM usuarios;',
       [],
@@ -31,7 +31,7 @@ export const obtenerUsuarios = (callback) => {
 };
 
 export const obtenerUsuarioPorEmail = (email, callback) => {
-    db.transaction(tx => {
+    db.transactionAsync(tx => {
         tx.executeSql(
             'SELECT * FROM usuarios WHERE email = ?;',
             [email],
@@ -44,7 +44,7 @@ export const obtenerUsuarioPorEmail = (email, callback) => {
 
 //eliminar usuario por id
 export const eliminarUsuarioPorId = (id, callback) => {
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       'DELETE FROM usuarios WHERE id = ?;',
       [id],
@@ -58,7 +58,7 @@ export const eliminarUsuarioPorId = (id, callback) => {
 export const modificarUsuario = (usuarioMod, callback) => {
   const { nombre, email, edad, barrio, fotoPerfil, puntajeTotal } = usuarioMod;
 
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       `UPDATE usuarios 
        SET nombre = ?, email = ?, edad = ?, barrio = ?, fotoPerfil = ?, puntajeTotal = ? 

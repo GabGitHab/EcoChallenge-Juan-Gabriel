@@ -3,7 +3,7 @@ import db from '../db/database';
 export const agregarReto = (reto, callback) => {
   const { titulo, descripcion, categoria, fechaLimite, puntajeAsign } = reto;
 
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       `INSERT INTO retos (titulo, descripcion, categoria, fechaLimite, puntajeAsign) 
        VALUES (?, ?, ?, ?, ?);`,
@@ -15,7 +15,7 @@ export const agregarReto = (reto, callback) => {
 };
 
 export const obtenerRetos = (callback) => {
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       'SELECT * FROM retos;',
       [],
@@ -26,7 +26,7 @@ export const obtenerRetos = (callback) => {
 };
 
 export const obtenerRetoPorId = (id, callback) => {
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       'SELECT * FROM retos WHERE id = ?;',
       [id],
@@ -37,7 +37,7 @@ export const obtenerRetoPorId = (id, callback) => {
 };  
 
 export const eliminarRetoPorId = (id, callback) => {
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       'DELETE FROM retos WHERE id = ?;',
       [id],
@@ -50,7 +50,7 @@ export const eliminarRetoPorId = (id, callback) => {
 export const modificarReto = (retoModificado, callback) => {
   const { titulo, descripcion, categoria, fechaLimite, puntajeAsign } = retoModificado;
 
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       `UPDATE retos 
        SET titulo = ?, descripcion = ?, categoria = ?, fechaLimite = ?, puntajeAsign = ? 

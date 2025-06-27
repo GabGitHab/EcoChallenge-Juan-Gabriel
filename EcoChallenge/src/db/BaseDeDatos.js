@@ -1,72 +1,89 @@
 import * as SQLite from 'expo-sqlite';
 
-const db = SQLite.openDatabase('eco_challenge.db');
+// Variable para la base de datos
+let db;
 
-const activarClavesForaneas = () => {
-    //SQL Lite requiere activar claves foraneas luego de crear la base de datos
-
-  db.exec([{ sql: 'PRAGMA foreign_keys = ON;', args: [] }], false, () => {
-    console.log('Claves foráneas activadas');
-  });
+// Función para obtener o abrir la base de datos async
+export const getDb = async () => {
+  if (!db) {
+    db = await SQLite.openDatabaseAsync('eco_challenge.db');
+  }
+  return db;
 };
 
-export const iniciarDatabase = () => {
-  activarClavesForaneas();
-    // Crear las tablas si no existen
-  db.transaction(tx => {
-    tx.executeSql(`
-      CREATE TABLE IF NOT EXISTS Usuarios (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nombre TEXT NOT NULL,
-        email TEXT NOT NULL UNIQUE,
-        edad INTEGER,
-        barrio TEXT,
-        fotoPerfil TEXT,
-        puntajeTotal INTEGER DEFAULT 0
-      );
-    `);
+// Función para activar claves foráneas async
+const activarClavesForaneas = async () => {
+  const db = await getDb();
+  try {
+    await db.transaction(async tx => {
+      await tx.executeSqlAsync('PRAGMA foreign_keys = ON;');
+    });
+    console.log('Claves foráneas activadas');
+  } catch (error) {
+    console.log('Error activando claves foráneas', error);
+  }
+};
 
-    tx.executeSql(`
-      CREATE TABLE IF NOT EXISTS retos (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        titulo TEXT NOT NULL,
-        descripcion TEXT,
-        categoria TEXT,
-        fechaLimite TEXT,
-        puntajeAsign INTEGER
-      );
-    `);
+// Función para iniciar la base de datos y crear tablas
+export const iniciarDatabase = async () => {
+  const db = await getDb();
 
-    tx.executeSql(`
-      CREATE TABLE IF NOT EXISTS materiales_reciclables (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nombre TEXT NOT NULL,
-        categoria TEXT,
-        imagen TEXT
-      );
-    `);
+  await activarClavesForaneas();
 
-    tx.executeSql(`
-      CREATE TABLE IF NOT EXISTS participaciones (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        id_usuario INTEGER,
-        id_reto INTEGER,
-        foto TEXT,
-        latitud REAL,
-        longitud REAL,
-        comentario TEXT,
-        estadoDeRevision TEXT,
-        FOREIGN KEY (id_usuario) REFERENCES usuarios(id),
-        FOREIGN KEY (id_reto) REFERENCES retos(id)
-      );
-    `);
-  },
-  (error) => {
-    console.log('Error al crear las tablas:', error);
-  },
-  () => {
+  try {
+    await db.transactionAsync(async tx => {
+      await tx.executeSqlAsync(`
+        CREATE TABLE IF NOT EXISTS Usuarios (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          nombre TEXT NOT NULL,
+          email TEXT NOT NULL UNIQUE,
+          edad INTEGER,
+          barrio TEXT,
+          fotoPerfil TEXT,
+          puntajeTotal INTEGER DEFAULT 0
+        );
+      `);
+
+      await tx.executeSqlAsync(`
+        CREATE TABLE IF NOT EXISTS retos (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          titulo TEXT NOT NULL,
+          descripcion TEXT,
+          categoria TEXT,
+          fechaLimite TEXT,
+          puntajeAsign INTEGER
+        );
+      `);
+
+      await tx.executeSqlAsync(`
+        CREATE TABLE IF NOT EXISTS materiales_reciclables (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          nombre TEXT NOT NULL,
+          categoria TEXT,
+          imagen TEXT
+        );
+      `);
+
+      await tx.executeSqlAsync(`
+        CREATE TABLE IF NOT EXISTS participaciones (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          id_usuario INTEGER,
+          id_reto INTEGER,
+          foto TEXT,
+          latitud REAL,
+          longitud REAL,
+          comentario TEXT,
+          estadoDeRevision TEXT,
+          FOREIGN KEY (id_usuario) REFERENCES Usuarios(id),
+          FOREIGN KEY (id_reto) REFERENCES retos(id)
+        );
+      `);
+    });
+
     console.log('Tablas creadas o ya existentes');
-  });
+  } catch (error) {
+    console.log('Error al crear las tablas:', error);
+  }
 };
 
 export default db;

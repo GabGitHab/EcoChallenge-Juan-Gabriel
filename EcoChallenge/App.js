@@ -5,8 +5,9 @@ import Inicio from './src/screens/Inicio';
 import RootStack from './src/routes/RootStack';
 import { iniciarDatabase } from './src/db/BaseDeDatos';
 import { useEffect } from 'react';
-import usuario from './src/session/ServiciosSession';
-import logOut from './src/session/ServiciosSession';
+import { logOut } from './src/session/ServiciosSession';
+import * as SQLite from 'expo-sqlite';
+
 
 export default function App() {
   useEffect(() => {

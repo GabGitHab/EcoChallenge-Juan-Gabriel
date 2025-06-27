@@ -3,7 +3,7 @@ import db from '../db/database';
 export const agregarParticipacion = (p, callback) => {
   const { id_usuario, id_reto, foto, latitud, longitud, comentario, estadoDeRevision } = p;
 
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       `INSERT INTO participaciones 
        (id_usuario, id_reto, foto, latitud, longitud, comentario, estadoDeRevision)
@@ -16,7 +16,7 @@ export const agregarParticipacion = (p, callback) => {
 };
 
 export const obtenerParticipaciones = (callback) => {
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       'SELECT * FROM participaciones;',
       [],
@@ -27,7 +27,7 @@ export const obtenerParticipaciones = (callback) => {
 };
 
 export const obtenerParticipacionPorId = (id, callback) => {
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       'SELECT * FROM participaciones WHERE id = ?;',
       [id],
@@ -38,7 +38,7 @@ export const obtenerParticipacionPorId = (id, callback) => {
 };
 
 export const eliminarParticipacionPorId = (id, callback) => {
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       'DELETE FROM participaciones WHERE id = ?;',
       [id],
@@ -51,7 +51,7 @@ export const eliminarParticipacionPorId = (id, callback) => {
 export const modificarParticipacion = (participacionModificada, callback) => {
   const { id_usuario, id_reto, foto, latitud, longitud, comentario, estadoDeRevision } = participacionModificada;
 
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       `UPDATE participaciones 
        SET id_usuario = ?, id_reto = ?, foto = ?, latitud = ?, longitud = ?, comentario = ?, estadoDeRevision = ? 
@@ -64,7 +64,7 @@ export const modificarParticipacion = (participacionModificada, callback) => {
 };
 
 export const obtenerParticipacionesPorUsuario = (id_usuario, callback) => {
-  db.transaction(tx => {
+  db.transactionAsync(tx => {
     tx.executeSql(
       'SELECT * FROM participaciones WHERE id_usuario = ?;',
       [id_usuario],
@@ -72,4 +72,4 @@ export const obtenerParticipacionesPorUsuario = (id_usuario, callback) => {
       (_, error) => { console.log('Error al obtener participaciones por usuario:', error); return false; }
     );
   });
-}
+};
