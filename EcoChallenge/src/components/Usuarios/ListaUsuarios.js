@@ -8,7 +8,7 @@ import Boton from '../Boton';
 import imagenPerfil from '../Iconos/perfil.avif';
 import { SafeAreaView } from 'react-native';
 
-const ListaUsuarios = () => {
+const ListaUsuarios = ({navigation}) => {
     const [Usuarios, setUsuarios] = useState([]);
     const [buscador, setBuscador] = useState("");
     const [error, setError] = useState(null);
@@ -52,19 +52,6 @@ const ListaUsuarios = () => {
         };
     };
 
-    const onEdit = async (id) =>
-    {
-        try
-        {
-            //logica para llevarlo a registrar usuario pero completar los campos necesarios
-        }
-        catch (error){
-            console.log("Error al editar usuario: ", error);
-            Alert.alert("Error al editar usuario", error.message);
-        }
-    };
-
-
   return (
     <SafeAreaView style={{ flex: 1, paddingTop: 20 }}>
         <View style = {{ flex: 1, padding: 10, backgroundColor: 'grey' }}>
@@ -82,7 +69,7 @@ const ListaUsuarios = () => {
                         />
                         <Boton
                             titulo = "Editar"
-                            evento = {() => onEdit(item.id.toString())}
+                            evento = {() => navigation.navigate("RegistroUsuario", {id : item.id})}
                         />
                     </View>
                 )}

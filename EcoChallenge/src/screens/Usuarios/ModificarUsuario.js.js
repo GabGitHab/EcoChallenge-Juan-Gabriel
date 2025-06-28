@@ -1,21 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Alert, Image, View, SafeAreaView, ScrollView, KeyboardAvoidingView } from "react-native";
 import InputTexto from "../../components/InputTexto";
 import Boton from "../../components/Boton";
-import { agregarUsuario, modificarUsuario, obtenerUsuarioPorId } from "../../fetchers/fetchUsuarios";
+import { agregarUsuario } from "../../fetchers/fetchUsuarios";
 
 //Creamos los estados del registro
-const RegistroUsuario = ({ route, navigation }) => {
-    const { id } = route.params ?? null;
-    const [nombre, setNombre] = useState("")
-    const [email, setEmail] = useState("")
-    const [edad, setEdad] = useState("")
-    const [barrio, setBarrio] = useState("")
-    const [fotoPerfil, setFotoPerfil] = useState("")
-
-    useEffect(() => {
-        esModificar();
-    }, []);
+const RegistroUsuario = ({ navigation, datosUsuario }) => {
+    const [nombre, setNombre] = useState(datosUsuario.nombre ?? "")
+    const [email, setEmail] = useState(datosUsuario.email ?? "")
+    const [edad, setEdad] = useState(datosUsuario.edad ?? "")
+    const [barrio, setBarrio] = useState(datosUsuario.barrio ?? "")
+    const [id, setId] = useState(datosUsuario.id ?? null)
+    const [fotoPerfil, setFotoPerfil] = useState(datosUsuario.fotoPerfil ?? "")
 
     //Funcion para volver a los estados 
     function LimpiarDatos() {
@@ -27,29 +23,11 @@ const RegistroUsuario = ({ route, navigation }) => {
 
     }
 
-    const esModificar = async () => {
-        console.log("ID recibido: ", id);
-        if (id != 0){
-            try {
-                const usuarioMod = await obtenerUsuarioPorId(id);
-                if (usuarioMod) {
-                    setNombre(usuarioMod.nombre);
-                    setEmail(usuarioMod.email);
-                    setEdad(usuarioMod.edad.toString());
-                    setBarrio(usuarioMod.barrio);
-                    setFotoPerfil(usuarioMod.fotoPerfil);
-                    console.log("Usuario encontrado: ", usuarioMod);
-                } else {
-                    Alert.alert("Usuario no encontrado");
-                }
-            }catch (error){
-                console.log("Error al obtener usuario: ", error);
-            }
-        }
-    }
-    
+    //Cargamos en una constante, la foto de perfil por default para usar si el usuario no sube una foto de perfil
+    // const fotoPerfilPredefinida = Image.resolveAssetSource(require("../assets/FotoPerfilPredeterminada.png")).uri
+
+    // Funcion para registrar el usuario en la "base de datos"
     const registrarUsuario = async () => {
-        
         //Avisamos al usuario que debe completar los campos si o si
         if (!nombre.trim()) {
             Alert.alert("Debe completar el campo con su Nombre completo");
@@ -67,45 +45,24 @@ const RegistroUsuario = ({ route, navigation }) => {
             Alert.alert("Debe completar el campo con ell nombre de su Barrio o Zona")
         };
 
-        if( id == 0 ){
-             const usuario = { //Creamos el objeto Usuario 
+            const usuario = { //Creamos el objeto Usuario
                 nombre,
                 email,
                 edad,
                 barrio,
                 fotoPerfil: fotoPerfil ? fotoPerfil : "../components/Iconos/perfil.avif", 
-            };         
+            }; // Si el usuario no sube foto de perfil, asignamos la predeterminada que tenemos guardada
 
-            try {
-                await agregarUsuario(usuario); // <- usando await
-                Alert.alert("Usuario registrado correctamente x2");
-                LimpiarDatos();
-            }finally{
-                navigation.navigate("Inicio");
-            }
-        }else 
-        {
-             const usuario = { 
-                id, 
-                nombre,
-                email,
-                edad,
-                barrio,
-                fotoPerfil: fotoPerfil ? fotoPerfil : "../components/Iconos/perfil.avif", 
-            }; 
-        
-            try {
-                await modificarUsuario(usuario);
-                Alert.alert("Usuario modificado correctamente");
-                LimpiarDatos();
-            }finally{
-                navigation.navigate("Inicio");
-            }
+        try {
+            await agregarUsuario(usuario); // <- usando await
+            Alert.alert("Usuario registrado correctamente x2");
+            LimpiarDatos();
+             // si querés volver a otra pantalla
+        }finally{
+            navegacion.navigate("Inicio");
         }
-    };
 
-    
-
+ };
     return (
         <SafeAreaView style={{ paddingTop: 80 }} >
             <View >

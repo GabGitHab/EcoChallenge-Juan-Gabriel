@@ -74,3 +74,16 @@ export const modificarUsuario = async (usuarioMod) => {
     console.log('Error al modificar usuario:', error);
   }
 };
+
+export const obtenerUsuarioPorId = async (id) => {
+  const idNumber = parseInt(id, 10);
+  try {
+    const db = await getDb();
+    const result = await db.getFirstAsync('SELECT * FROM usuarios WHERE id = ?;', [idNumber]);
+    return result;
+  }
+  catch (error){
+    console.log('Error al obtener usuario por ID:', error);
+    return null;
+  };
+};

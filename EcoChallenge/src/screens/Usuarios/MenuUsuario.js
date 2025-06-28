@@ -8,17 +8,7 @@ const MenuUsuario = ({ navigation }) => {
             <Boton
                 backgroundColor="#d3ffbb"
                 titulo="Registrar Usuario"
-                evento={() => navigation.navigate("RegistroUsuario")}
-            />
-            <Boton
-                backgroundColor="#d3ffbb"
-                titulo="Editar Usuario"
-                evento={() => navigation.navigate("EditarUsuario")}
-            />
-            <Boton
-                backgroundColor="#d3ffbb"
-                titulo="Borrar Usuario"
-                evento={() => navigation.navigate("BorrarUsuario")}
+                evento={() => navigation.navigate("RegistroUsuario", { id: 0})}
             />
             <Boton
                 backgroundColor="#d3ffbb"
