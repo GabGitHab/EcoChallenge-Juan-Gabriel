@@ -47,7 +47,7 @@ const RegistroUsuario = ({ route, navigation }) => {
             }
         }
     }
-
+ 
     const registrarUsuario = async () => {
 
         //Avisamos al usuario que debe completar los campos si o si

@@ -6,6 +6,8 @@ import RootStack from './src/routes/RootStack';
 import { iniciarDatabase } from './src/db/BaseDeDatos';
 import { useEffect } from 'react';
 import { logOut } from './src/session/ServiciosSession';
+import { NavigationContainer } from '@react-navigation/native';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 
 
@@ -19,7 +21,11 @@ export default function App() {
   }, []);
   
   return (
-    <RootStack />
+    <PaperProvider>
+        <NavigationContainer>    
+            <RootStack />
+        </NavigationContainer>
+    </PaperProvider>
   );
 }
 

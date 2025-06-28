@@ -87,3 +87,21 @@ export const obtenerUsuarioPorId = async (id) => {
     return null;
   };
 };
+
+export const guardarImagenPerfil = async (id, rutaImagen) => {
+  const idnumero = parseInt(id);
+  try {
+    const db = await getDb();
+    await db.runAsync(
+      'UPDATE usuarios SET fotoPerfil = ? WHERE id = ?;', 
+      [rutaImagen, idnumero],
+    )
+    Alert.alert('Foto de perfil actualizada exitosamente');
+    console.log('ruta guardada', rutaImagen)
+  }
+  catch (error) {
+    console.log('Error al actualizar foto de perfil:', error);
+    Alert.alert('Error al actualizar foto de perfil:', error.message);
+    }
+};
+
