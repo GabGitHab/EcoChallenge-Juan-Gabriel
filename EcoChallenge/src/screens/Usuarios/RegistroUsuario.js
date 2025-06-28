@@ -29,7 +29,7 @@ const RegistroUsuario = ({ route, navigation }) => {
 
     const esModificar = async () => {
         console.log("ID recibido: ", id);
-        if (id != 0){
+        if (id != 0) {
             try {
                 const usuarioMod = await obtenerUsuarioPorId(id);
                 if (usuarioMod) {
@@ -42,14 +42,14 @@ const RegistroUsuario = ({ route, navigation }) => {
                 } else {
                     Alert.alert("Usuario no encontrado");
                 }
-            }catch (error){
+            } catch (error) {
                 console.log("Error al obtener usuario: ", error);
             }
         }
     }
-    
+
     const registrarUsuario = async () => {
-        
+
         //Avisamos al usuario que debe completar los campos si o si
         if (!nombre.trim()) {
             Alert.alert("Debe completar el campo con su Nombre completo");
@@ -67,44 +67,43 @@ const RegistroUsuario = ({ route, navigation }) => {
             Alert.alert("Debe completar el campo con ell nombre de su Barrio o Zona")
         };
 
-        if( id == 0 ){
-             const usuario = { //Creamos el objeto Usuario 
+        if (id == 0) {
+            const usuario = { //Creamos el objeto Usuario 
                 nombre,
                 email,
                 edad,
                 barrio,
-                fotoPerfil: fotoPerfil ? fotoPerfil : "../components/Iconos/perfil.avif", 
-            };         
+                fotoPerfil: fotoPerfil ? fotoPerfil : "../components/Iconos/perfil.avif",
+            };
 
             try {
                 await agregarUsuario(usuario); // <- usando await
-                Alert.alert("Usuario registrado correctamente x2");
+                Alert.alert("Usuario registrado correctamente!");
                 LimpiarDatos();
-            }finally{
+            } finally {
                 navigation.navigate("Inicio");
             }
-        }else 
-        {
-             const usuario = { 
-                id, 
+        } else {
+            const usuario = {
+                id,
                 nombre,
                 email,
                 edad,
                 barrio,
-                fotoPerfil: fotoPerfil ? fotoPerfil : "../components/Iconos/perfil.avif", 
-            }; 
-        
+                fotoPerfil: fotoPerfil ? fotoPerfil : "../components/Iconos/perfil.avif",
+            };
+
             try {
                 await modificarUsuario(usuario);
                 Alert.alert("Usuario modificado correctamente");
                 LimpiarDatos();
-            }finally{
+            } finally {
                 navigation.navigate("Inicio");
             }
         }
     };
 
-    
+
 
     return (
         <SafeAreaView style={{ paddingTop: 80 }} >

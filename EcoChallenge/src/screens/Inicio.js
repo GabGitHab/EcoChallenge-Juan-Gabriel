@@ -15,12 +15,14 @@ const Inicio = ({ navigation }) => {
             <Boton
                 backgroundColor="#d3ffbb"
                 color="blue"
-                titulo="Retos"
+                titulo="Menu Retos"
+                evento={() => navigation.navigate("MenuRetos")}
             />
             <Boton
                 backgroundColor="#d3ffbb"
                 color="blue"
-                titulo="Materiales"
+                titulo="Menu Materiales"
+                evento={() => navigation.navigate("MenuMateriales")}
             />
         </View>
     );
