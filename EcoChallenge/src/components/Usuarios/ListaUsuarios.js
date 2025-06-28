@@ -1,11 +1,12 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { FlatList } from 'react-native-gesture-handler';
-import { getDb } from '../../fetchers/fetchUsuarios'; // Asegúrate de que la ruta sea correcta
-import { obtenerUsuarios, obtenerUsuarioPorEmail, eliminarUsuarioPorId, modificarUsuario } from '../../fetchers/fetchUsuarios';
+import { getDb } from '../../db/BaseDeDatos'; // Asegúrate de que la ruta sea correcta
+import { obtenerUsuarios, obtenerUsuarioPorNombre, eliminarUsuarioPorId, modificarUsuario } from '../../fetchers/fetchUsuarios';
 import { Alert, Text, View } from 'react-native';
-import { Boton } from '../Boton';
+import Boton from '../Boton';
 import imagenPerfil from '../Iconos/perfil.avif';
+import { SafeAreaView } from 'react-native';
 
 const ListaUsuarios = () => {
     const [Usuarios, setUsuarios] = useState([]);
@@ -14,43 +15,36 @@ const ListaUsuarios = () => {
     const [loading, setLoading] = useState(true);
     const db = getDb();
 
-    useEffect(() => {
+    useEffect(() => {   
+        cargarUsuarios();
+    }, [buscador]);
+
+    const cargarUsuarios = async () => {
         setLoading(true);
-        if (buscador == "")
-        {
-            try {
-                const usuarios = obtenerUsuarios();
-                console.log("Usuarios obtenidos");
-                setUsuarios(usuarios);                
+        try {
+            let usuarios;
+            if (buscador === "") {
+                usuarios = await obtenerUsuarios();
+                console.log("Usuarios obtenidos en effect", usuarios);
+            } else {
+                usuarios = await obtenerUsuarioPorNombre(buscador);
+                console.log("Usuarios obtenidos por nombre en effect", usuarios);
             }
-            catch (error){
-                console.log("Error al obtener usuarios: ", error);
-                setError(error);
-            }finally{ setLoading(false); };
+            setUsuarios(usuarios);
+        } catch (error) {
+            console.log("Error al obtener usuarios: ");
+            setError(error);
+        } finally {
+            setLoading(false);
         }
-        else
-        {
-            try
-            {
-                const usuarios = obtenerUsuarioPorEmail(buscador);
-                setUsuarios(usuarios);
-                console.log("Usuarios obtenidos por email");
-            }
-            catch (error)
-            {
-                console.log("Error al obtener usuario por email: ", error);
-                setError(error);
-            } finally { setLoading(false); };
-        }
-        
-    },[buscador]);
+    };
 
     const onDelete = async (id) => {
         try {
             eliminarUsuarioPorId(id);
             console.log("Usuario eliminado");
             Alert.alert("Usuario eliminado");
-            Usuarios.remove((usuario) => usuario.id === id);
+            cargarUsuarios();
         }
         catch (error) {
             console.log("Error al eliminar usuario: ", error);
@@ -72,33 +66,35 @@ const ListaUsuarios = () => {
 
 
   return (
-    <View style = {{ flex: 1, padding: 10, backgroundColor: '#fff' }}>
-        <FlatList
-            data = {Usuarios}
-            keyExtractor = {(item) => item.id.toString()}
-            renderItem = {({ item }) => {
-                <View>
-                    <Text style = {{ fontSize: 18, margin : 10, textAlign: 'center' }}>
-                        {item.nombre} - {item.edad} - {item.barrio} - {item.puntajeTotal} 
-                    </Text>
-                    <Boton
-                        titulo = "X"
-                        onPress = {() => onDelete(item.id)}
-                    />
-                    <Boton
-                        titulo = "Editar"
-                        onPress = {() => onEdit(item.id)}
-                    />
-                </View>
-            }}
-            ListHeaderComponent={() => (
-            <Text style={{ fontSize: 22, margin : 12, textAlign: 'center' }}>Usuarios Registrados</Text>
-            )}
-            ListEmptyComponent={() => (
-            <Text style={styles.vacio}>No hay usuarios aún.</Text>
-            )}
-        />
-    </View>
+    <SafeAreaView style={{ flex: 1, paddingTop: 20 }}>
+        <View style = {{ flex: 1, padding: 10, backgroundColor: 'grey' }}>
+            <FlatList
+                data = {Usuarios}
+                keyExtractor = {(item) => item.id.toString()}
+                renderItem = {({ item }) => (
+                    <View>
+                        <Text style = {{ fontSize: 18, margin : 10, textAlign: 'center' }}>
+                            {item.nombre} - {item.edad} - {item.barrio} - {item.puntajeTotal} 
+                        </Text>
+                        <Boton
+                            titulo = "X"
+                            evento = {() => onDelete(item.id.toString())}
+                        />
+                        <Boton
+                            titulo = "Editar"
+                            evento = {() => onEdit(item.id.toString())}
+                        />
+                    </View>
+                )}
+                ListHeaderComponent={() => (
+                <Text style={{ fontSize: 22, marginVertical : 12, textAlign: 'center' }}>Usuarios Registrados</Text>
+                )}
+                ListEmptyComponent={() => (
+                <Text style={ { fontSize: 22, marginVertical : 12, textAlign: 'center', color: 'red' } }>No hay usuarios aún.</Text>
+                )}
+            />
+        </View>
+    </SafeAreaView>
   )
 }
 

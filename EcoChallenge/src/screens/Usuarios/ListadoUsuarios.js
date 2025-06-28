@@ -1,13 +1,22 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, SafeAreaView } from 'react-native'
 import ListaUsuarios from '../../components/Usuarios/ListaUsuarios'
+import Boton from '../../components/Boton'
 
-const ListadoUsuarios = ( {navegacion} ) => {
+const ListadoUsuarios = ( { navigation } ) => {
 
   return (
-    <View>
-        <ListaUsuarios />
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <View style={{ flex: 1 }}>
+          <ListaUsuarios />
+      </View>
+      <View style={{ padding: 10 }}>
+        <Boton 
+            backgroundColor="#d3ffbb"
+            titulo = "Volver al Menu"
+            evento = {() => navigation.navigate("MenuUsuario")}
+        />
+      </View>
+    </SafeAreaView>
   )
 }
 

@@ -26,8 +26,8 @@ export const obtenerUsuarios = async () => {
   try {
     const db = await getDb();
     const result = await db.getAllAsync('SELECT * FROM usuarios;');
+    console.log('Usuarios obtenidos:', result);
     return result;
-    console.log('Usuarios obtenidos:');
   } catch (error) {
     console.log('Error al obtener usuarios:', error);
     return [];

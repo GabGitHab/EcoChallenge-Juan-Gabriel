@@ -5,7 +5,7 @@ import Boton from "../../components/Boton";
 import { agregarUsuario } from "../../fetchers/fetchUsuarios";
 
 //Creamos los estados del registro
-const RegistroUsuario = ({ navegacion }) => {
+const RegistroUsuario = ({ navigation }) => {
     const [nombre, setNombre] = useState("")
     const [email, setEmail] = useState("")
     const [edad, setEdad] = useState("")
@@ -49,7 +49,7 @@ const RegistroUsuario = ({ navegacion }) => {
                 email,
                 edad,
                 barrio,
-                fotoPerfil: fotoPerfil ? fotoPerfil : "https://example.com/default-profile.png", 
+                fotoPerfil: fotoPerfil ? fotoPerfil : "../components/Iconos/perfil.avif", 
             }; // Si el usuario no sube foto de perfil, asignamos la predeterminada que tenemos guardada
 
         try {

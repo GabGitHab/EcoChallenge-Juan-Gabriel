@@ -6,6 +6,7 @@ import RegistroUsuario from "../screens/Usuarios/RegistroUsuario";
 import EditarUsuario from "../screens/Usuarios/EditarUsuario";
 import BorrarUsuario from "../screens/Usuarios/BorrarUsuario";
 import MenuUsuario from "../screens/Usuarios/MenuUsuario";
+import ListadoUsuarios from "../screens/Usuarios/ListadoUsuarios";
 
 
 
@@ -39,6 +40,11 @@ const RootStack = () => {
                     name="MenuUsuario"
                     component={MenuUsuario}
                     options={{ title: "Menu Usuario" }}
+                />
+                <Stack.Screen 
+                    name="ListadoUsuarios"
+                    component={ListadoUsuarios}
+                    options={{ title: "Listado de Usuarios" }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
