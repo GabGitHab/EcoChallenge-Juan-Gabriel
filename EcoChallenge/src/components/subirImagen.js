@@ -21,6 +21,7 @@ const subirImagen = ( {navigation} ) => {
     const obtenerUsuario = async () => {
         let usuarioSesion;
         usuarioSesion = await obtenerSesion();
+        setUsuario(usuario);
         return usuarioSesion
     };
 

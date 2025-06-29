@@ -7,7 +7,7 @@ const ListadoUsuarios = ( { navigation } ) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={{ flex: 1 }}>
-          <ListaUsuarios navigation={navigation} />
+          <ListaUsuarios/>
       </View>
       <View style={{ padding: 10 }}>
         <Boton 

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { View, SafeAreaView, ScrollView, KeyboardAvoidingView, Alert, Text } from "react-native";
 import Boton from "../../components/Boton";
 
-const BorrarMaterial = (navegacion) => {
+const BorrarMaterial = ({navigation}) => {
     const [nombreMaterial, setNombreMaterial] = useState("")
 
     const borrarMaterial = async () => {

@@ -5,7 +5,7 @@ import InputTexto from "../../components/InputTexto"
 import { Alert, Image, View, SafeAreaView, ScrollView, KeyboardAvoidingView } from "react-native";
 import Boton from "../../components/Boton";
 
-const RegistroMaterial = (navegacion) => {
+const RegistroMaterial = ({navigation}) => {
 
     const [nombre, setNombre] = useState("")
     const [categoria, setCategoria] = useState("")
