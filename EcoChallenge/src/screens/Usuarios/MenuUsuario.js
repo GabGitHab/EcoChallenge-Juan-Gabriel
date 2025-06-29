@@ -8,7 +8,7 @@ const MenuUsuario = ({ navigation }) => {
             <Boton
                 backgroundColor="#d3ffbb"
                 titulo="Registrar Usuario"
-                evento={() => navigation.navigate("RegistroUsuario", { id: 0})}
+                evento={() => navigation.navigate("RegistroUsuario", { id: 0 })}
             />
             <Boton
                 backgroundColor="#d3ffbb"
@@ -18,18 +18,19 @@ const MenuUsuario = ({ navigation }) => {
         </View>
     );
 };
+export default MenuUsuario;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        paddingTop: 80,
+        backgroundColor: '#e0f7fa',
     },
     titulo: {
         fontSize: 24,
         fontWeight: "bold",
         marginBottom: 20,
     },
-});
-
-export default MenuUsuario;
+})

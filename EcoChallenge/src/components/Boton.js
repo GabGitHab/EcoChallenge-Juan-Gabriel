@@ -18,17 +18,28 @@ const Boton = (props) => {
 const styles = StyleSheet.create({
     boton: {
         backgroundColor: '#d3ffbb',
-        paddingVertical: 12,
+        paddingVertical: 20,
         paddingHorizontal: 20,
-        borderRadius: 8,
+        borderRadius: 20,
         alignItems: 'center',
-        margin: 10
+        margin: 20
     },
     texto: {
         color: 'black',
-        fontSize: 16,
-
+        fontSize: 20,
+        fontFamily: 'sans-serif-medium'
+    },
+    view: {
+        flexDirection: 'row',       // para ícono + texto en línea
+        alignItems: 'center',       // centra verticalmente
+        justifyContent: 'center',   // centra horizontalmente
+        gap: 10
     }
+
 });
 
 export default Boton;
+
+
+
+

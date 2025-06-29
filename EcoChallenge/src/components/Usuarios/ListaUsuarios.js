@@ -7,15 +7,16 @@ import { Alert, Text, View } from 'react-native';
 import Boton from '../Boton';
 import imagenPerfil from '../Iconos/perfil.avif';
 import { SafeAreaView } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-const ListaUsuarios = ({navigation}) => {
+const ListaUsuarios = ({ navigation }) => {
     const [Usuarios, setUsuarios] = useState([]);
     const [buscador, setBuscador] = useState("");
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const db = getDb();
 
-    useEffect(() => {   
+    useEffect(() => {
         cargarUsuarios();
     }, [buscador]);
 
@@ -52,37 +53,47 @@ const ListaUsuarios = ({navigation}) => {
         };
     };
 
-  return (
-    <SafeAreaView style={{ flex: 1, paddingTop: 20 }}>
-        <View style = {{ flex: 1, padding: 10, backgroundColor: 'grey' }}>
-            <FlatList
-                data = {Usuarios}
-                keyExtractor = {(item) => item.id.toString()}
-                renderItem = {({ item }) => (
-                    <View>
-                        <Text style = {{ fontSize: 18, margin : 10, textAlign: 'center' }}>
-                            {item.nombre} - {item.edad} - {item.barrio} - {item.puntajeTotal} 
-                        </Text>
-                        <Boton
-                            titulo = "X"
-                            evento = {() => onDelete(item.id.toString())}
-                        />
-                        <Boton
-                            titulo = "Editar"
-                            evento = {() => navigation.navigate("RegistroUsuario", {id : item.id})}
-                        />
-                    </View>
-                )}
-                ListHeaderComponent={() => (
-                <Text style={{ fontSize: 22, marginVertical : 12, textAlign: 'center' }}>Usuarios Registrados</Text>
-                )}
-                ListEmptyComponent={() => (
-                <Text style={ { fontSize: 22, marginVertical : 12, textAlign: 'center', color: 'red' } }>No hay usuarios aún.</Text>
-                )}
-            />
-        </View>
-    </SafeAreaView>
-  )
+    return (
+        <SafeAreaView style={styles.fondo}>
+            <View style={{ flex: 1, padding: 10, }}>
+                <FlatList
+                    data={Usuarios}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => (
+                        <View>
+                            <Text style={{ fontSize: 18, margin: 10, textAlign: 'center' }}>
+                                {item.nombre} - {item.edad} - {item.barrio} - {item.puntajeTotal}
+                            </Text>
+                            <Boton
+                                backgroundColor="red"
+                                titulo="X"
+                                evento={() => onDelete(item.id.toString())}
+                            />
+                            <Boton
+                                backgroundColor="blue"
+                                titulo="Editar"
+                                evento={() => navigation.navigate("RegistroUsuario", { id: item.id })}
+                            />
+                        </View>
+                    )}
+                    ListHeaderComponent={() => (
+                        <Text style={{ fontSize: 22, marginVertical: 12, textAlign: 'center' }}>Usuarios Registrados</Text>
+                    )}
+                    ListEmptyComponent={() => (
+                        <Text style={{ fontSize: 22, marginVertical: 12, textAlign: 'center', color: 'red' }}>No hay usuarios aún.</Text>
+                    )}
+                />
+            </View>
+        </SafeAreaView>
+    )
 }
 
 export default ListaUsuarios
+
+const styles = StyleSheet.create({
+    fondo: {
+        flex: 1,
+        paddingTop: 80,
+        backgroundColor: '#e0f7fa',
+    }
+});

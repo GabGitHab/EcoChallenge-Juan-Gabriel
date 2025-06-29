@@ -1,12 +1,14 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Image, ImageBackground } from "react-native";
 import Boton from "../components/Boton";
-
 
 const Inicio = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            <Text style={styles.titulo}>EcoChallenge</Text>
+            <Image
+                source={require('../../assets/logo.png')}
+                style={styles.logo}
+            />
             <Boton
                 backgroundColor="#d3ffbb"
                 titulo="Menu Usuario"
@@ -24,6 +26,7 @@ const Inicio = ({ navigation }) => {
                 titulo="Menu Materiales"
                 evento={() => navigation.navigate("MenuMateriales")}
             />
+            <Text>Por Gabriel Larrosa y Juan Luviera</Text>
         </View>
     );
 };
@@ -32,13 +35,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: '#e0f7fa',
     },
-    titulo: {
-        fontSize: 24,
-        fontWeight: "bold",
+    logo: {
+        width: 800,
+        height: 150,
+        resizeMode: 'contain',
         marginBottom: 20
-    }
+    },
+
 });
 
 export default Inicio;

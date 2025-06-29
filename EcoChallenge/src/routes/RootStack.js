@@ -22,80 +22,78 @@ const Stack = createStackNavigator()
 
 const RootStack = () => {
     return (
-        <NavigationContainer initialRouteName="Inicio">
-            <Stack.Navigator>
-                <Stack.Screen
-                    name="Inicio"
-                    component={Inicio}
-                    options={{ title: "Inicio" }}
-                />
-                <Stack.Screen
-                    name="RegistroUsuario"
-                    component={RegistroUsuario}
-                    options={{ title: "Registro Usuario" }}
-                />
-                <Stack.Screen
-                    name="EditarUsuario"
-                    component={EditarUsuario}
-                    options={{ title: "Editar Usuario" }}
-                />
-                <Stack.Screen
-                    name="BorrarUsuario"
-                    component={BorrarUsuario}
-                    options={{ title: "Registro Usuario" }}
-                />
-                <Stack.Screen
-                    name="MenuUsuario"
-                    component={MenuUsuario}
-                    options={{ title: "Menu Usuario" }}
-                />
-                <Stack.Screen
-                    name="ListadoUsuarios"
-                    component={ListadoUsuarios}
-                    options={{ title: "Listado de Usuarios" }}
-                />
-                <Stack.Screen
-                    name="MenuRetos"
-                    component={MenuRetos}
-                    options={{ title: "Menu Retos" }}
-                />
-                <Stack.Screen
-                    name="RegistroRetos"
-                    component={RegistroRetos}
-                    options={{ title: "Registro Retos" }}
-                />
-                <Stack.Screen
-                    name="EditarRetos"
-                    component={EditarRetos}
-                    options={{ title: "Editar Retos" }}
-                />
-                <Stack.Screen
-                    name="BorrarRetos"
-                    component={BorrarRetos}
-                    options={{ title: "Borrar Retos" }}
-                />
-                <Stack.Screen
-                    name="MenuMateriales"
-                    component={MenuMateriales}
-                    options={{ title: "Menu de Materiales" }}
-                />
-                <Stack.Screen
-                    name="RegistroMaterial"
-                    component={RegistroMaterial}
-                    options={{ title: "Registro de material" }}
-                />
-                <Stack.Screen
-                    name="EditarMaterial"
-                    component={EditarMaterial}
-                    options={{ title: "Edicion de material" }}
-                />
-                <Stack.Screen
-                    name="BorrarMaterial"
-                    component={BorrarMaterial}
-                    options={{ title: "Borrar material" }}
-                />
-            </Stack.Navigator>
-        </NavigationContainer>
+        <Stack.Navigator>
+            <Stack.Screen
+                name="Inicio"
+                component={Inicio}
+                options={{ title: "Inicio" }}
+            />
+            <Stack.Screen
+                name="RegistroUsuario"
+                component={RegistroUsuario}
+                options={{ title: "Registro Usuario" }}
+            />
+            <Stack.Screen
+                name="EditarUsuario"
+                component={EditarUsuario}
+                options={{ title: "Editar Usuario" }}
+            />
+            <Stack.Screen
+                name="BorrarUsuario"
+                component={BorrarUsuario}
+                options={{ title: "Registro Usuario" }}
+            />
+            <Stack.Screen
+                name="MenuUsuario"
+                component={MenuUsuario}
+                options={{ title: "Menu Usuario" }}
+            />
+            <Stack.Screen
+                name="ListadoUsuarios"
+                component={ListadoUsuarios}
+                options={{ title: "Listado de Usuarios" }}
+            />
+            <Stack.Screen
+                name="MenuRetos"
+                component={MenuRetos}
+                options={{ title: "Menu Retos" }}
+            />
+            <Stack.Screen
+                name="RegistroRetos"
+                component={RegistroRetos}
+                options={{ title: "Registro Retos" }}
+            />
+            <Stack.Screen
+                name="EditarRetos"
+                component={EditarRetos}
+                options={{ title: "Editar Retos" }}
+            />
+            <Stack.Screen
+                name="BorrarRetos"
+                component={BorrarRetos}
+                options={{ title: "Borrar Retos" }}
+            />
+            <Stack.Screen
+                name="MenuMateriales"
+                component={MenuMateriales}
+                options={{ title: "Menu de Materiales" }}
+            />
+            <Stack.Screen
+                name="RegistroMaterial"
+                component={RegistroMaterial}
+                options={{ title: "Registro de material" }}
+            />
+            <Stack.Screen
+                name="EditarMaterial"
+                component={EditarMaterial}
+                options={{ title: "Edicion de material" }}
+            />
+            <Stack.Screen
+                name="BorrarMaterial"
+                component={BorrarMaterial}
+                options={{ title: "Borrar material" }}
+            />
+        </Stack.Navigator>
     )
 }
 
