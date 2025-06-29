@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import ListaUsuarios from '../../components/Usuarios/ListaUsuarios'
 import Boton from '../../components/Boton'
 
@@ -22,3 +22,8 @@ const ListadoUsuarios = ({ navigation }) => {
 
 export default ListadoUsuarios
 
+const styles = StyleSheet.create({
+  flex: 1,
+  backgroundColor: '#fff',
+
+})

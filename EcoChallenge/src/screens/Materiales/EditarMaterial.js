@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, SafeAreaView, ScrollView, KeyboardAvoidingView, Alert, Text } from "react-native";
+import { View, SafeAreaView, ScrollView, KeyboardAvoidingView, Alert, Text, StyleSheet } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import InputTexto from "../../components/InputTexto";
 import Boton from "../../components/Boton";
@@ -62,8 +62,8 @@ const EditarMaterial = () => {
         }
     };
     return (
-        <SafeAreaView style={{ paddingTop: 100 }}>
-            <View>
+        <SafeAreaView style={styles.fondo}>
+            <View >
                 <ScrollView>
                     <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
                         <InputTexto
@@ -103,3 +103,11 @@ const EditarMaterial = () => {
     );
 }
 export default EditarMaterial;
+
+const styles = StyleSheet.create({
+    fondo: {
+        flex: 1,
+        paddingTop: 80,
+        backgroundColor: '#e0f7fa',
+    }
+})

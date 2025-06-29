@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, SafeAreaView, View, ScrollView, KeyboardAvoidingView, Text } from "react-native";
+import { Alert, SafeAreaView, View, ScrollView, KeyboardAvoidingView, Text, StyleSheet } from "react-native";
 import InputTexto from "../../components/InputTexto";
 import Boton from "../../components/Boton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -82,7 +82,7 @@ const EditarRetos = () => {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={styles.fondo}>
             <KeyboardAvoidingView
                 style={{ flex: 1 }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -140,3 +140,11 @@ const EditarRetos = () => {
 
 
 export default EditarRetos;
+
+const styles = StyleSheet.create({
+    fondo: {
+        flex: 1,
+        paddingTop: 80,
+        backgroundColor: '#e0f7fa',
+    }
+})

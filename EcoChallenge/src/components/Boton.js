@@ -19,10 +19,10 @@ const styles = StyleSheet.create({
     boton: {
         backgroundColor: '#d3ffbb',
         paddingVertical: 20,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         borderRadius: 20,
         alignItems: 'center',
-        margin: 20
+        margin: 10
     },
     texto: {
         color: 'black',
@@ -30,9 +30,9 @@ const styles = StyleSheet.create({
         fontFamily: 'sans-serif-medium'
     },
     view: {
-        flexDirection: 'row',       // para ícono + texto en línea
-        alignItems: 'center',       // centra verticalmente
-        justifyContent: 'center',   // centra horizontalmente
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
         gap: 10
     }
 

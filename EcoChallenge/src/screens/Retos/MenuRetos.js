@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: '#e0f7fa',
     },
     titulo: {
         fontSize: 24,

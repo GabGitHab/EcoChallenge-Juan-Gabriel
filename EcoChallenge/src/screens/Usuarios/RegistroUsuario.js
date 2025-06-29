@@ -194,8 +194,8 @@ const RegistroUsuario = ({ route, navigation }) => {
                         <View style={{ height: 20 }} />
 
                         <Boton
-                            color="blue"
-                            titulo="Guardar Usuario"
+                            backgroundColor="#25d366"
+                            titulo="💾 Guardar Usuario"
                             evento={registrarUsuario}
                         />
                     </ScrollView>

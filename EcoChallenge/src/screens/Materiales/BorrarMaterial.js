@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import InputTexto from "../../components/InputTexto"
 import React, { useState } from "react";
-import { View, SafeAreaView, ScrollView, KeyboardAvoidingView, Alert, Text } from "react-native";
+import { View, SafeAreaView, ScrollView, KeyboardAvoidingView, Alert, Text, StyleSheet } from "react-native";
 import Boton from "../../components/Boton";
 
 const BorrarMaterial = (navegacion) => {
@@ -23,7 +23,7 @@ const BorrarMaterial = (navegacion) => {
         }
     }
     return (
-        <SafeAreaView style={{ paddingTop: 100 }}>
+        <SafeAreaView style={styles.fondo}>
             <View >
                 <View >
                     <ScrollView>
@@ -41,3 +41,11 @@ const BorrarMaterial = (navegacion) => {
     )
 }
 export default BorrarMaterial;
+
+const styles = StyleSheet.create({
+    fondo: {
+        flex: 1,
+        paddingTop: 80,
+        backgroundColor: '#e0f7fa',
+    }
+})
