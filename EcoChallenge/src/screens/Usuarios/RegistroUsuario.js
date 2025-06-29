@@ -192,10 +192,9 @@ const RegistroUsuario = ({ route, navigation }) => {
                             backgroundColor="#d3ffbb"
                             titulo="Tomar foto" evento={takePhoto} />
                         <View style={{ height: 20 }} />
-
                         <Boton
-                            color="blue"
-                            titulo="Guardar Usuario"
+                            backgroundColor="#25d366"
+                            titulo="💾 Guardar Usuario"
                             evento={registrarUsuario}
                         />
                     </ScrollView>
@@ -210,7 +209,8 @@ export default RegistroUsuario;
 const styles = StyleSheet.create({
     fondo: {
         flex: 1,
-        paddingTop: 80,
+        paddingTop: 20,
         backgroundColor: '#e0f7fa',
+
     }
 });

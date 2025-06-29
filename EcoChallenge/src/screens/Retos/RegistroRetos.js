@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { NavigationContainer } from "@react-navigation/native"
 import { useState } from "react"
 import InputTexto from "../../components/InputTexto"
-import { Alert, Image, View, SafeAreaView, ScrollView, KeyboardAvoidingView } from "react-native";
+import { Alert, Image, View, SafeAreaView, ScrollView, KeyboardAvoidingView, StyleSheet } from "react-native";
 import Boton from "../../components/Boton";
 
 const RegistroRetos = ({ navegacion }) => {
@@ -55,7 +55,7 @@ const RegistroRetos = ({ navegacion }) => {
         }
     }
     return (
-        <SafeAreaView style={{ paddingTop: 80 }}>
+        <SafeAreaView style={styles.fondo}>
             <View>
                 <View>
                     <ScrollView>
@@ -82,8 +82,8 @@ const RegistroRetos = ({ navegacion }) => {
                                 onChangeText={setPuntajeAsignado}
                                 value={puntajeAsignado} />
                             <Boton
-                                backgroundColor="green"
-                                titulo="Guardar Reto"
+                                backgroundColor="#25d366"
+                                titulo="💾 Guardar Reto"
                                 evento={registrarReto}
                             />
                         </KeyboardAvoidingView>
@@ -95,3 +95,11 @@ const RegistroRetos = ({ navegacion }) => {
 }
 
 export default RegistroRetos;
+
+const styles = StyleSheet.create({
+    fondo: {
+        flex: 1,
+        paddingTop: 80,
+        backgroundColor: '#e0f7fa',
+    }
+})

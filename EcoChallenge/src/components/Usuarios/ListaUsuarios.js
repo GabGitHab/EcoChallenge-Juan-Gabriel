@@ -60,18 +60,18 @@ const ListaUsuarios = ({ navigation }) => {
                     data={Usuarios}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
-                        <View>
+                        <View style={styles.vista}>
                             <Text style={{ fontSize: 18, margin: 10, textAlign: 'center' }}>
                                 {item.nombre} - {item.edad} - {item.barrio} - {item.puntajeTotal}
                             </Text>
                             <Boton
                                 backgroundColor="red"
-                                titulo="X"
+                                titulo="X Borrar"
                                 evento={() => onDelete(item.id.toString())}
                             />
                             <Boton
-                                backgroundColor="blue"
-                                titulo="Editar"
+                                backgroundColor="#24adf3"
+                                titulo="✏ Editar"
                                 evento={() => navigation.navigate("RegistroUsuario", { id: item.id })}
                             />
                         </View>
@@ -95,5 +95,18 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 80,
         backgroundColor: '#e0f7fa',
+    },
+    vista: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        padding: 15,
+        margin: 10,
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 5
     }
 });
