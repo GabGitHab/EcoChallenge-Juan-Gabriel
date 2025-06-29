@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { View, SafeAreaView, ScrollView, KeyboardAvoidingView, Alert, Text, StyleSheet } from "react-native";
 import Boton from "../../components/Boton";
 
-const BorrarRetos = (navegacion) => {
+const BorrarRetos = ({navigation}) => {
 
     const [nombreReto, setNombreReto] = useState("")
 
@@ -28,7 +28,6 @@ const BorrarRetos = (navegacion) => {
             <View >
                 <View >
                     <ScrollView>
-
                         <KeyboardAvoidingView>
                             <InputTexto
                                 placeholder="Buscar reto para eliminar"

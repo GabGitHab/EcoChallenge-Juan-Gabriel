@@ -59,7 +59,7 @@ const RegistroUsuario = ({ navigation, datosUsuario }) => {
             LimpiarDatos();
              // si querés volver a otra pantalla
         }finally{
-            navegacion.navigate("Inicio");
+            navigation.navigate("Inicio");
         }
 
  };

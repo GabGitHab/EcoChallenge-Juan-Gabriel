@@ -5,7 +5,7 @@ import InputTexto from "../../components/InputTexto"
 import { Alert, Image, View, SafeAreaView, ScrollView, KeyboardAvoidingView, StyleSheet } from "react-native";
 import Boton from "../../components/Boton";
 
-const RegistroRetos = ({ navegacion }) => {
+const RegistroRetos = ({ navigation }) => {
     const [nombre, setNombre] = useState("")
     const [descripcion, setDescripcion] = useState("")
     const [categoria, setCategoria] = useState("")
