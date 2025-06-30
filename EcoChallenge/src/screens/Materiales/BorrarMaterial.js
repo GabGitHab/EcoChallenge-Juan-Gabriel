@@ -32,7 +32,10 @@ const BorrarMaterial = (navegacion) => {
                                 placeholder="Buscar material para eliminar"
                                 onChangeText={(text) => setNombreMaterial(text)}
                             />
-                            <Boton titulo="Borrar Material" evento={borrarMaterial} />
+                            <Boton
+                                backgroundColor="red"
+                                titulo="X Borrar Material"
+                                evento={borrarMaterial} />
                         </KeyboardAvoidingView>
                     </ScrollView>
                 </View>

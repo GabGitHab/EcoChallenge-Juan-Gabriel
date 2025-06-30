@@ -93,7 +93,12 @@ const EditarRetos = () => {
                         value={buscarRetoNombre}
                         onChangeText={setBuscarRetoNombre}
                     />
-                    <Boton titulo="Buscar" evento={buscarReto} />
+                    <Boton
+                        backgroundColor="#389fff"
+                        titulo=" 🔍Buscar"
+                        paddingVertical="20"
+                        paddingHorizontal="10"
+                        evento={buscarReto} />
 
                     {retoEncontrado && (
                         <View style={{ marginTop: 20 }}>
@@ -126,6 +131,7 @@ const EditarRetos = () => {
                                 onChangeText={setPuntajeAsignadoReto}
                             />
                             <Boton
+                                backgroundColor="#25d366"
                                 titulo="Actualizar"
                                 evento={actualizarReto}
                                 style={{ marginTop: 20 }}
