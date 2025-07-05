@@ -15,6 +15,8 @@ import MenuMateriales from "../screens/Materiales/MenuMateriales";
 import RegistroMaterial from "../screens/Materiales/RegistroMaterial";
 import EditarMaterial from "../screens/Materiales/EditarMaterial";
 import BorrarMaterial from "../screens/Materiales/BorrarMaterial";
+import AgregarParticipacion from "../screens/Retos/AgregarParticipacion";
+import VerReto from "../screens/Retos/VerReto";
 
 
 
@@ -92,6 +94,16 @@ const RootStack = () => {
                 name="BorrarMaterial"
                 component={BorrarMaterial}
                 options={{ title: "Borrar material" }}
+            />
+            <Stack.Screen
+                name="AgregarParticipacion"
+                component={AgregarParticipacion}
+                options={{ title: "Agregar Participación" }}
+            />
+            <Stack.Screen
+                name="DetallesReto"
+                component={VerReto}
+                options={{ title: "Detalles del Reto" }}
             />
         </Stack.Navigator>
     )

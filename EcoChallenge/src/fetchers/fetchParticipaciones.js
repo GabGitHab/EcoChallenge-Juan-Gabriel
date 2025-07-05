@@ -28,6 +28,28 @@ export const obtenerParticipaciones = async () => {
   }
 };
 
+export const obtenerParticipacionesPorReto = async (id_reto) => {
+  try {
+    const db = await getDb();
+    const result = await db.getAllAsync('SELECT * FROM participaciones WHERE id_reto = ?;', [id_reto]);
+    return result;
+  } catch (error) {
+    console.log('Error al obtener participaciones por reto:', error);
+    return [];
+  }
+};
+
+export const obtenerUNAParticipacionPorReto = async (id_reto) => {
+  try {
+    const db = await getDb();
+    const result = await db.getFirstAsync('SELECT TOP 1 * FROM participaciones WHERE id_reto = ?;', [id_reto]);
+    return result;
+  } catch (error) {
+    console.log('Error al obtener una participación por reto:', error);
+    return null;
+  }
+};
+
 export const obtenerParticipacionPorId = async (id) => {
   try {
     const db = await getDb();
