@@ -31,6 +31,8 @@ const Inicio = ({ navigation }) => {
     );
 };
 
+export default Inicio;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -46,5 +48,3 @@ const styles = StyleSheet.create({
     },
 
 });
-
-export default Inicio;

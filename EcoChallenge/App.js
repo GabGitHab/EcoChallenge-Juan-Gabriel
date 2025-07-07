@@ -8,24 +8,27 @@ import { useEffect } from 'react';
 import { logOut } from './src/session/ServiciosSession';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider as PaperProvider } from 'react-native-paper';
+import { ProviderUsuario } from './src/components/context/contextoUsuario';
 
 
 
 export default function App() {
   useEffect(() => {
-      const iniciar = async () =>{
-        await iniciarDatabase();
-              logOut();       // Cerramos la sesion anterior si existe
-      }
-      iniciar();
+    const iniciar = async () => {
+      await iniciarDatabase();
+      logOut();       // Cerramos la sesion anterior si existe
+    }
+    iniciar();
   }, []);
-  
+
   return (
-    <PaperProvider>
-        <NavigationContainer>    
-            <RootStack />
+    <ProviderUsuario>
+      <PaperProvider>
+        <NavigationContainer>
+          <RootStack />
         </NavigationContainer>
-    </PaperProvider>
+      </PaperProvider>
+    </ProviderUsuario>
   );
 }
 
