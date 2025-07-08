@@ -22,7 +22,7 @@ const ParticiparBoton = ({ id }) => {
                         [
                         {
                             text: "Ir al registro",
-                            onPress: () => navigation.reset('RegistroUsuario'),
+                            onPress: () => navigation.navigate('RegistroUsuario'),
                         },
                         {
                             text: "Cancelar",
