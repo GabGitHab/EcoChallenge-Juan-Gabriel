@@ -2,15 +2,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { NavigationContainer } from "@react-navigation/native"
 import { useState } from "react"
 import InputTexto from "../../components/InputTexto"
-import { Alert, Image, View, SafeAreaView, ScrollView, KeyboardAvoidingView, StyleSheet } from "react-native";
+import { Alert, Image, View, SafeAreaView, ScrollView, KeyboardAvoidingView, StyleSheet, Text } from "react-native";
 import Boton from "../../components/Boton";
+import { agregarReto } from "../../fetchers/fetchRetos";
 
 const RegistroRetos = ({ navigation }) => {
-    const [nombre, setNombre] = useState("")
-    const [descripcion, setDescripcion] = useState("")
-    const [categoria, setCategoria] = useState("")
-    const [fechaLimite, setFechaLimite] = useState("")
-    const [puntajeAsignado, setPuntajeAsignado] = useState("")
+    const [titulo, setTitulo] = useState("");
+    const [descripcion, setDescripcion] = useState("");
+    const [categoria, setCategoria] = useState("");
+    const [fechaLimite, setFechaLimite] = useState("");
+    const [puntajeAsign, setPuntajeAsignado] = useState("");
+    const [loading, setLoading] = useState("");
+    const [error, setError] = useState(null);
 
 
     const LimpiarDatos = () => {
@@ -22,7 +25,7 @@ const RegistroRetos = ({ navigation }) => {
     }
 
     const registrarReto = async () => {
-        if (!nombre.trim()) {
+        if (!titulo.trim()) {
             Alert.alert("Debe completar el campo con el nombre del reto")
         }
         if (!descripcion.trim()) {
@@ -34,36 +37,45 @@ const RegistroRetos = ({ navigation }) => {
         if (!fechaLimite.trim()) {
             Alert.alert("Debe especificar la fecha limite del reto")
         }
-        if (!puntajeAsignado.trim() || parseInt(puntajeAsignado) < 0) {
+        if (!puntajeAsign.trim() || parseInt(puntajeAsign) < 0) {
             Alert.alert("El puntaje no puede estar vacio ni ser menor que 0")
         }
         try {
+            setLoading(true);
             const reto = {
-                nombre,
+                titulo,
                 descripcion,
                 categoria,
                 fechaLimite,
-                puntajeAsignado
+                puntajeAsign
             }
-            await AsyncStorage.setItem(nombre, JSON.stringify(reto));
-            LimpiarDatos();
-            Alert.alert("Su reto se creo correctamente")
+            const resp = await agregarReto(reto);
+            if(resp){
+                Alert.alert("Su reto se creo correctamente");
+                LimpiarDatos();
+            }            
         }
         catch (error) {
             console.error(error);
-            Alert.alert("Error al registrar el reto.")
+            setError(error);
+            Alert.alert("Error al registrar el reto.");
         }
+        finally{
+            setLoading(false);
+        };
     }
+
     return (
         <SafeAreaView style={styles.fondo}>
             <View>
                 <View>
                     <ScrollView>
+                        <Text style={{ color:"red" }}>{error}</Text>
                         <KeyboardAvoidingView>
                             <InputTexto
                                 placeholder="Nombre del Reto"
-                                onChangeText={setNombre}
-                                value={nombre} />
+                                onChangeText={setTitulo}
+                                value={titulo} />
                             <InputTexto
                                 placeholder="Descripcion del reto"
                                 onChangeText={setDescripcion}
@@ -75,12 +87,13 @@ const RegistroRetos = ({ navigation }) => {
                             <InputTexto
                                 placeholder="Fecha Limite"
                                 onChangeText={setFechaLimite}
-                                value={fechaLimite} />
+                                value={fechaLimite} 
+                                keyboardType="" />
                             <InputTexto
                                 placeholder="Puntaje Asignado"
                                 keyboardType="numeric"
                                 onChangeText={setPuntajeAsignado}
-                                value={puntajeAsignado} />
+                                value={puntajeAsign} />
                             <Boton
                                 backgroundColor="green"
                                 titulo="Guardar Reto"

@@ -1,14 +1,16 @@
 import { View, Text, Alert } from 'react-native'
 import React, { useState } from 'react'
-import { Boton } from '../Boton'
+import Boton from '../Boton'
 import { obtenerSesion } from '../../session/ServiciosSession'
 import { Button } from 'react-native-paper'
 import { agregarParticipacion } from '../../fetchers/fetchParticipaciones'
+import { useNavigation } from '@react-navigation/native'
 
 const ParticiparBoton = ({ id }) => {
     const [loading, setLoading] = useState(false); 
+    const navigation = useNavigation();
 
-    const OnClick = async ( id ) =>
+    const OnClick = async () =>
     {
         setLoading(true);
         const user = await obtenerSesion();
@@ -17,25 +19,32 @@ const ParticiparBoton = ({ id }) => {
         if (!user)
         {
             Alert.alert("Error", "Debes iniciar sesion para participar en un reto.",
-                (() =>{
-                <Button
-                mode="contained"
-                onPress={() => navigation.navigate('RegistroUsuario')}        
-                style={{ marginTop: 10, backgroundColor: '#4CAF50' }}
-                />
-            }));
+                        [
+                        {
+                            text: "Ir al registro",
+                            onPress: () => navigation.reset('RegistroUsuario'),
+                        },
+                        {
+                            text: "Cancelar",
+                            style: "cancel",
+                        }
+                        ]    
+            );
+        }
+        else{
+            navigation.navigate('AgregarParticipacion', { idReto : id });
         };
 
-        navigation.navigate('AgregarParicipacion', { idReto : id })
     }
         
   return (
-    <Boton
-        backgroundColor='#d3ffbb'
-        titulo= "Participar"
-        evento={() => OnClick(id)}        
-    />
+    
+        <Boton
+            backgroundColor='#d3ffbb'
+            titulo={loading ? "Cargando..." : "Participar"}
+            evento={() => OnClick()}        
+        />
   )
 }
 
-export default ParticiparBoton
+export default ParticiparBoton;
