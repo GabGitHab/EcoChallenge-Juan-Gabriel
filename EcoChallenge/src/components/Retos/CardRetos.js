@@ -9,7 +9,7 @@ const CardRetos = ({ titulo, categoria, descripcion, puntajeAsign, idReto, fecha
   const navigation = useNavigation();
   
   return (
-    <Card style={{ margin: 10, padding: 10, backgroundColor: '#e0f7fa' }} onPress={() => navigation.navigate('DetallesReto', { idReto })}>
+    <Card style={{ margin: 10, padding: 10, backgroundColor: '#e0f7fa' }}>
       <Card.Title
         title={titulo}
         subtitle={categoria}
@@ -30,7 +30,7 @@ const CardRetos = ({ titulo, categoria, descripcion, puntajeAsign, idReto, fecha
         <Boton
           backgroundColor='#d3ffbb'
           titulo="Detalles"
-          evento={() => navigation.navigate('DetallesReto', { idReto })}
+          evento={() => navigation.navigate('DetallesReto', { id: idReto })}
         />
       </Card.Actions>
     </Card>

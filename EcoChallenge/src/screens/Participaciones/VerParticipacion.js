@@ -1,11 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import { useNavigation } from '@react-navigation/native'
 
-const VerParticipacion = ({id}) => {
-  const navigation = useNavigation();
-
-  
+const VerParticipacion = () => {
   return (
     <View>
       <Text>VerParticipacion</Text>

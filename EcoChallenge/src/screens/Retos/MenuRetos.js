@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import Boton from "../../components/Boton";
+import ListaRetos from "../../components/Retos/ListaRetos";
 
 const MenuRetos = ({ navigation }) => {
     return (
@@ -20,6 +21,7 @@ const MenuRetos = ({ navigation }) => {
                 titulo="Borrar Reto"
                 evento={() => navigation.navigate("BorrarRetos")}
             />
+            <ListaRetos />
         </View>
     );
 };

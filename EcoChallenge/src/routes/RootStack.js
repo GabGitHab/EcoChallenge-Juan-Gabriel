@@ -19,6 +19,7 @@ import BorrarMaterial from "../screens/Materiales/BorrarMaterial";
 import AgregarParticipacion from "../screens/Retos/AgregarParticipacion";
 import VerReto from "../screens/Retos/VerReto";
 import Login from "../session/Login";
+import VerParticipacion from "../screens/Participaciones/VerParticipacion";
 
 const Stack = createStackNavigator();
 
@@ -27,7 +28,7 @@ const RootStack = () => {
 
     return (
         <Stack.Navigator>
-            {!usuario ? (
+            {usuario ? (
                 <Stack.Screen
                     name="Ingresar"
                     component={Login}
@@ -112,8 +113,13 @@ const RootStack = () => {
                     />
                     <Stack.Screen
                         name="DetallesReto"
-                        component={VerReto}
+                        component={VerReto} //falta<
                         options={{ title: "Detalles del Reto" }}
+                    />
+                    <Stack.Screen
+                        name="VerParticiacion"
+                        component={VerParticipacion} //falta
+                        options={{ title: "Detalles de Participación" }}
                     />
                 </>
             )}

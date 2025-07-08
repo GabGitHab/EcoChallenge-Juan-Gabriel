@@ -1,10 +1,11 @@
-import { View, Text } from 'react-native'
-import React, { use } from 'react'
+import { View, Text, SafeAreaView } from 'react-native'
+import React from 'react'
 import { useState, useEffect } from 'react';
 import ParticipacionView from './ParticipacionView';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native';
-import { obtenerUNAParticipacionPorReto } from '../../fetchers/fetchParticipaciones';
+import { obtenerUNAParticipacionPorReto, obtenerParticipacionesPorReto } from '../../fetchers/fetchParticipaciones';
+import Boton from '../Boton';
 
 const ListaParticipaciones = ({ idReto, soloUna }) => {
     const [participaciones, setParticipaciones] = useState([]);
@@ -21,7 +22,7 @@ const ListaParticipaciones = ({ idReto, soloUna }) => {
             try{
             const respuesta = await obtenerUNAParticipacionPorReto(idReto);
             if (respuesta) {
-                setParticipaciones(respuesta);
+                setParticipaciones(Array.isArray(respuesta) ? respuesta : [respuesta]);
             };
             }catch (error) {
                 console.error("Error al obtener la participacion:", error);
@@ -39,9 +40,31 @@ const ListaParticipaciones = ({ idReto, soloUna }) => {
     };
 
   return (
-    <View>
-      <Text>ListaParticipaciones</Text>
-    </View>
+        <SafeAreaView style={styles.fondo}>
+            <FlatList
+                data={participaciones}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => (
+                <ParticipacionView
+                    comentario={item.comentario}
+                    nomUsuario={item.nombre}
+                    estado={item.estadoDeRevision}
+                    onPress={() => navigation.navigate('VerParticipacion', { id: item.id })}
+                />
+                )}
+                ListFooterComponent=
+                    {soloUna ? (
+                        <Boton 
+                            backgroundColor="#d3ffbb"
+                            titulo="Ver todas las participaciones"
+                            evento={() => navigation.navigate('DetallesReto', { id: idReto })}
+                        />
+                    ) : null }
+                />
+                {participaciones.length === 0 && (
+                <Text style={{ textAlign: 'center', marginTop: 20 }}>No hay participaciones para este reto.</Text>
+                )}
+        </SafeAreaView>
   )
 }
 

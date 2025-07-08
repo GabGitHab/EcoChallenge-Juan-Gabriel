@@ -1,14 +1,14 @@
 import { View, Text, Alert } from 'react-native'
 import React, { useState } from 'react'
-import { Boton } from '/../Boton'
+import { Boton } from '../Boton'
 import { obtenerSesion } from '../../session/ServiciosSession'
 import { Button } from 'react-native-paper'
 import { agregarParticipacion } from '../../fetchers/fetchParticipaciones'
 
-const ParticiparBoton = ({props}) => {
+const ParticiparBoton = ({ id }) => {
     const [loading, setLoading] = useState(false); 
 
-    const OnClick = async (idReto) =>
+    const OnClick = async ( id ) =>
     {
         setLoading(true);
         const user = await obtenerSesion();
@@ -26,14 +26,14 @@ const ParticiparBoton = ({props}) => {
             }));
         };
 
-        navigation.navigate('AgregarParicipacion', { idReto : idReto })
+        navigation.navigate('AgregarParicipacion', { idReto : id })
     }
         
   return (
     <Boton
         backgroundColor='#d3ffbb'
         titulo= "Participar"
-        evento={() => OnClick(props.id)}        
+        evento={() => OnClick(id)}        
     />
   )
 }
