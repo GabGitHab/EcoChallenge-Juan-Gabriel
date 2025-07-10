@@ -30,7 +30,7 @@ const ListaRetos = ({ navigation }) => {
     };
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 10 }}>
+    <SafeAreaView style={{ flex: 2, padding: 5 }}>
         <FlatList
             data={retos}
             keyExtractor={(item) => item.id.toString()}

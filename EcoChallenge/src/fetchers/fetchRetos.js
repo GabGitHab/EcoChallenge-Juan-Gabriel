@@ -42,6 +42,7 @@ export const obtenerRetoPorId = async (id) => {
 export const eliminarRetoPorId = async (id) => {
   try {
     const db = await getDb();
+    await db.executeSql('DELETE FROM participaciones WHERE retoId = ?', [id]);
     await db.runAsync('DELETE FROM retos WHERE id = ?;', [id]);
     console.log('Reto eliminado');
   } catch (error) {

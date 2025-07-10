@@ -3,6 +3,7 @@ import InputTexto from "../../components/InputTexto"
 import React, { useState } from "react";
 import { View, SafeAreaView, ScrollView, KeyboardAvoidingView, Alert, Text, StyleSheet } from "react-native";
 import Boton from "../../components/Boton";
+import { obtenerRetoPorId, eliminarRetoPorId } from "../../fetchers/fetchRetos";
 
 const BorrarRetos = ({navigation}) => {
 
@@ -10,13 +11,16 @@ const BorrarRetos = ({navigation}) => {
 
     const borrarReto = async () => {
         try {
-            const reto = AsyncStorage.getItem(nombreReto)
+            const reto = await obtenerRetoPorId(nombreReto);
+            console.log('Reto encontrado para borrar:', reto);
             if (reto) {
-                await AsyncStorage.removeItem(nombreReto)
-                Alert.alert("El Reto " + nombreReto + " se borro con exito!")
-                setNombreReto("")
+                const resp = await eliminarRetoPorId(nombreReto); 
+                Alert.alert("El Reto " + nombreReto + " se borro con exito!");
+                setNombreReto("");
+                navigation.goBack("MenuRetos");
             } else {
-                Alert.alert("No se encontro el reto con el nombre " + nombreReto)
+                Alert.alert("No se encontro el reto con el nombre " + nombreReto);
+                return;
             }
         } catch (error) {
             console.error(error);
@@ -31,7 +35,7 @@ const BorrarRetos = ({navigation}) => {
                         <KeyboardAvoidingView>
                             <InputTexto
                                 placeholder="Buscar reto para eliminar"
-                                onChangeText={(text) => setNombreReto(text)}
+                                onChangeText={setNombreReto}
                             />
                             <Boton titulo="Borrar Reto" evento={borrarReto} />
                         </KeyboardAvoidingView>

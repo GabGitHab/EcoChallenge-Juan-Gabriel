@@ -59,7 +59,7 @@ export const iniciarDatabase = async () => {
         comentario TEXT,
         estadoDeRevision TEXT,
         FOREIGN KEY (id_usuario) REFERENCES Usuarios(id),
-        FOREIGN KEY (id_reto) REFERENCES retos(id)
+        FOREIGN KEY (id_reto) REFERENCES retos(id) ON DELETE CASCADE
       );
     `);
 

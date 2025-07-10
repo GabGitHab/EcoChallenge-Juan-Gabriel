@@ -40,7 +40,7 @@ const ListaParticipaciones = ({ idReto, soloUna }) => {
     };
 
   return (
-        <SafeAreaView style={styles.fondo}>
+        <SafeAreaView style={{ flex: 1, padding: 10 }}>
             <FlatList
                 data={participaciones}
                 keyExtractor={(item) => item.id.toString()}

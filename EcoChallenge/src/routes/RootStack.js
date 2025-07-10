@@ -21,6 +21,7 @@ import BorrarMaterial from "../screens/Materiales/BorrarMaterial";
 import AgregarParticipacion from "../screens/Retos/AgregarParticipacion";
 import VerReto from "../screens/Retos/VerReto";
 import VerParticipacion from "../screens/Participaciones/VerParticipacion";
+import ListaParticipaciones from "../components/Participaciones/ListaParticipaciones";
 
 
 const AuthStackNavigator = createStackNavigator();
@@ -97,6 +98,11 @@ const AppStack = () => (
       name="MenuMateriales"
       component={MenuMateriales}
       options={{ title: "Menú Materiales" }}
+    />
+    <AppStackNavigator.Screen
+      name="ListaParticipaciones"
+      component={ListaParticipaciones}
+      options={{ title: "Lista de Participaciones" }}
     />
     <AppStackNavigator.Screen
       name="RegistroMaterial"

@@ -4,6 +4,7 @@ import InputTexto from "../../components/InputTexto";
 import Boton from "../../components/Boton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Platform } from "react-native";
+import { modificarReto, obtenerRetoPorId } from "../../fetchers/fetchRetos";
 
 const EditarRetos = () => {
     const [retoEncontrado, setRetoEncontrado] = useState(false);
@@ -16,19 +17,19 @@ const EditarRetos = () => {
 
     const buscarReto = async () => {
         if (!buscarRetoNombre.trim()) {
-            Alert.alert("El nombre del reto es requerido.");
+            Alert.alert("El id del reto es requerido.");
             return;
         }
 
         try {
-            const retoGuardado = await AsyncStorage.getItem(buscarRetoNombre);
+            const retoGuardado = await obtenerRetoPorId(buscarRetoNombre);
+            console.log('Reto encontrado:', retoGuardado);
             if (retoGuardado) {
-                const datosReto = JSON.parse(retoGuardado);
-                setNombreReto(datosReto.nombre);
-                setDescripcionReto(datosReto.descripcion);
-                setCategoriaReto(datosReto.categoria);
-                setFechaLimiteReto(datosReto.fechaLimite);
-                setPuntajeAsignadoReto(datosReto.puntajeAsignado);
+                setNombreReto(retoGuardado.nombre);
+                setDescripcionReto(retoGuardado.descripcion);
+                setCategoriaReto(retoGuardado.categoria);
+                setFechaLimiteReto(retoGuardado.fechaLimite);
+                setPuntajeAsignadoReto(retoGuardado.puntajeAsignado);
                 setRetoEncontrado(true);
             } else {
                 Alert.alert("No se encontró un reto con ese nombre.");
@@ -64,14 +65,16 @@ const EditarRetos = () => {
 
         try {
             const reto = {
-                nombre: nombreReto,
+                id : buscarRetoNombre,
+                titulo: nombreReto,
                 descripcion: descripcionReto,
                 categoria: categoriaReto,
                 fechaLimite: fechaLimiteReto,
                 puntajeAsignado: parseInt(puntajeAsignadoReto)
             };
 
-            await AsyncStorage.setItem(buscarRetoNombre, JSON.stringify(reto));
+            modificarReto(reto);
+            console.log('Reto actualizado:', reto);
             Alert.alert("El reto se actualizó con éxito.");
             setRetoEncontrado(false);
             setBuscarRetoNombre("");
