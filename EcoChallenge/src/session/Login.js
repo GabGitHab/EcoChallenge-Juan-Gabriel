@@ -5,6 +5,7 @@ import Boton from "../components/Boton"
 import InputTexto from "../components/InputTexto"
 import { useUser } from "../components/context/contextoUsuario";
 import { StyleSheet } from "react-native"
+import { obtenerUsuarioPorEmail } from "../fetchers/fetchUsuarios"
 
 const Login = ({ navigation }) => {
     const { setUsuario } = useUser()
@@ -14,7 +15,8 @@ const Login = ({ navigation }) => {
     const LimpiarDatos = () => {
         setEmail("")
         setContraseña("")
-    }
+    };
+
     const usuarioLogueado = async () => {
         if (!email.trim()) {
             Alert.alert("Debe ingresar un Email")
@@ -23,27 +25,22 @@ const Login = ({ navigation }) => {
             Alert.alert("Debe ingresar una contraseña")
         }
         try {
-            const datosUsuario = await AsyncStorage.getItem(email)
-            LimpiarDatos()
+            const resp = await obtenerUsuarioPorEmail(email.trim());
 
-            if (!datosUsuario) {
+            if (!resp) {
                 Alert.alert("Usuario no registrado")
                 return
-            }
-            const user = JSON.parse(datosUsuario);
-
-            if (user.contraseña !== contraseña.trim()) {
-                Alert.alert("Contraseña incorrecta");
-                return;
-            }
-
-            setUsuario(user);
+            };
+            setUsuario(resp);
             navigation.navigate("Inicio");
         }
         catch (error) {
-            Alert.alert("Error al iniciar sesion")
-        }
+            Alert.alert("Error al iniciar sesion");
+            console.log("Error al iniciar sesion: ", error);
+        };
+        LimpiarDatos();
     }
+
     return (
         <View style={styles.container}>
             <Image
@@ -69,6 +66,11 @@ const Login = ({ navigation }) => {
                     evento={usuarioLogueado}
                 />
             </ScrollView>
+            <Boton
+                backgroundColor="#d3ffbb"
+                titulo="Registrar Usuario"
+                evento={() => navigation.navigate("RegistroUsuario", { id: 0 })}
+            />
         </View >
     )
 }

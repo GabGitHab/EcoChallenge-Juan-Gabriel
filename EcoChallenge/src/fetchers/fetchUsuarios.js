@@ -46,6 +46,17 @@ export const obtenerUsuarioPorNombre = async (nombre) => {
   }
 };
 
+export const obtenerUsuarioPorEmail = async (email) => {
+  try {
+    const db = await getDb();
+    const result = await db.getFirstAsync('SELECT * FROM usuarios WHERE email = ?;', [email]);
+    return result;
+  } catch (error) {
+    console.log('Error al obtener usuario por email:', error);
+    return null;
+  }
+}
+
 // Eliminar usuario por ID
 export const eliminarUsuarioPorId = async (id) => {
   try {

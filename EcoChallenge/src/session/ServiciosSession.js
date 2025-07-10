@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// No podés usar `await` en el nivel superior si no estás en un `async function`
 let usuario; // Declaralo arriba
+
 (async () => {
-  usuario = await obtenerSesion(); // ejecutalo dentro de una IIFE (función autoejecutable)
+  usuario = await obtenerSesion(); 
 })();
 
 export const guardarSesion = async (usuario) => {
