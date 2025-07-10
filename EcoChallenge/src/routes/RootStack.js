@@ -1,13 +1,10 @@
-// RootStack.js
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useUser } from "../components/context/contextoUsuario";
 
-// Pantallas Auth
 import Login from "../session/Login";
 import RegistroUsuario from "../screens/Usuarios/RegistroUsuario";
 
-// Pantallas App
 import Inicio from "../screens/Inicio";
 import EditarUsuario from "../screens/Usuarios/EditarUsuario";
 import BorrarUsuario from "../screens/Usuarios/BorrarUsuario";

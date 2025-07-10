@@ -1,4 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useUser } from "../components/context/contextoUsuario";
+
 
 let usuario; // Declaralo arriba
 
@@ -13,10 +15,9 @@ export const guardarSesion = async (usuario) => {
 };
 
 export const obtenerSesion = async () => {
-  const usuarioJson = await AsyncStorage.getItem('usuarioSesion');
+  const { usuario, setUsuario } = useUser();
 
-  if (usuarioJson) {
-    const usuario = JSON.parse(usuarioJson); // CORREGIDO: .JSON() NO EXISTE
+  if (usuario !== null) {
     console.log('Sesión obtenida');
     return usuario;
   } else {
@@ -26,6 +27,8 @@ export const obtenerSesion = async () => {
 };
 
 export const logOut = async () => {
+  const { setUsuario } = useUser();
+  setUsuario(null);
   await AsyncStorage.removeItem('usuarioSesion');
   console.log('Sesión cerrada');
 };

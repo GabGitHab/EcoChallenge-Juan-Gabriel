@@ -9,7 +9,7 @@ const CardRetos = ({ titulo, categoria, descripcion, puntajeAsign, idReto, fecha
   const navigation = useNavigation();
   
   return (
-    <Card style={{ margin: 10, padding: 10, backgroundColor: '#e0f7fa' }}>
+    <Card style={{ margin: 5, padding: 5, backgroundColor: '#e0f7fa' }}>
       <Card.Title
         title={titulo}
         subtitle={categoria}

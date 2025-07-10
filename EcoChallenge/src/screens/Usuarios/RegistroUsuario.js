@@ -139,7 +139,7 @@ const RegistroUsuario = ({ route, navigation }) => {
                 Alert.alert("Usuario modificado correctamente");
             }
             LimpiarDatos();
-            navigation.navigate("Inicio");
+            navigation.navigate("Ingresar");
         } catch (error) {
             console.log("Error al guardar/modificar usuario: ", error);
         }

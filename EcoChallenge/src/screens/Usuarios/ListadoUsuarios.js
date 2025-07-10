@@ -13,7 +13,7 @@ const ListadoUsuarios = ({ navigation }) => {
         <Boton
           backgroundColor="#d3ffbb"
           titulo="Volver al Menu"
-          evento={() => navigation.navigate("MenuUsuario")}
+          evento={() => navigation.goBack("MenuUsuario")}
         />
       </View>
     </SafeAreaView>

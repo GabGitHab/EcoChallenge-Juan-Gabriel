@@ -32,7 +32,6 @@ const Login = ({ navigation }) => {
                 return
             };
             setUsuario(resp);
-            navigation.navigate("Inicio");
         }
         catch (error) {
             Alert.alert("Error al iniciar sesion");
