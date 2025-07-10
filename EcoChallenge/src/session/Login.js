@@ -26,7 +26,6 @@ const Login = ({ navigation }) => {
         }
         try {
             const resp = await obtenerUsuarioPorEmail(email.trim());
-
             if (!resp) {
                 Alert.alert("Usuario no registrado")
                 return

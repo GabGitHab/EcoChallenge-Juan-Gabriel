@@ -11,7 +11,7 @@ export const agregarParticipacion = async (p) => {
        VALUES (?, ?, ?, ?, ?, ?, ?);`,
       [id_usuario, id_reto, foto, latitud, longitud, comentario, estadoDeRevision]
     );
-    console.log('Participación agregada');
+    console.log('Participación agregada', p);
   } catch (error) {
     console.log('Error al insertar participación:', error);
   }

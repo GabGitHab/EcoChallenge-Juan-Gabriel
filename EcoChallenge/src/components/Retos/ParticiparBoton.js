@@ -2,21 +2,18 @@ import { View, Text, Alert } from 'react-native'
 import React, { useState } from 'react'
 import Boton from '../Boton'
 import { obtenerSesion } from '../../session/ServiciosSession'
-import { Button } from 'react-native-paper'
-import { agregarParticipacion } from '../../fetchers/fetchParticipaciones'
 import { useNavigation } from '@react-navigation/native'
+import { useUser } from '../context/contextoUsuario'
 
 const ParticiparBoton = ({ id }) => {
     const [loading, setLoading] = useState(false); 
     const navigation = useNavigation();
+    const { usuario, setUsuario } = useUser();
 
     const OnClick = async () =>
     {
-        setLoading(true);
-        const user = await obtenerSesion();
-        setLoading(false);
 
-        if (!user)
+        if (!usuario)
         {
             Alert.alert("Error", "Debes iniciar sesion para participar en un reto.",
                         [

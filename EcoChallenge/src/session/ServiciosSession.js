@@ -2,12 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useUser } from "../components/context/contextoUsuario";
 
 
-let usuario; // Declaralo arriba
-
-(async () => {
-  usuario = await obtenerSesion(); 
-})();
-
 export const guardarSesion = async (usuario) => {
   const usuarioJson = JSON.stringify(usuario);
   await AsyncStorage.setItem('usuarioSesion', usuarioJson);
