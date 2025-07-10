@@ -101,3 +101,17 @@ export const obtenerParticipacionesPorUsuario = async (id_usuario) => {
     return [];
   }
 };
+
+export const obtenerParticipacionPorUsuario = async (id, idReto)=>{
+  try {
+    const db = await getDb();
+    const result = await db.getFirstAsync(
+      'SELECT * FROM participaciones WHERE id_usuario = ? AND id_reto = ? LIMIT 1;',
+      [id, idReto]
+    );
+    return result;
+  } catch (error) {
+    console.log('Error al obtener participación por usuario:', error);
+    return null;
+  }
+}

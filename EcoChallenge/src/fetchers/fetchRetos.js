@@ -11,6 +11,7 @@ export const agregarReto = async (reto) => {
       [titulo, descripcion, categoria, fechaLimite, puntajeAsign]
     );
     console.log('Reto agregado');
+    return true;
   } catch (error) {
     console.log('Error al insertar reto:', error);
   }

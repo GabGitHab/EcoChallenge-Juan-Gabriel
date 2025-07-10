@@ -37,7 +37,7 @@ const subirImagen = ( {navigation} ) => {
     }
 
     const pickFromGallery = async () => {
-        if (!(await requestPerms())) return;
+        if (!(await pedirPermisos())) return;
         const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ['images'],
         allowsEditing: true,
@@ -47,7 +47,7 @@ const subirImagen = ( {navigation} ) => {
     };
 
     const takePhoto = async () => {
-        if (!(await requestPerms())) return;
+        if (!(await pedirPermisos())) return;
         const result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         quality: 1,

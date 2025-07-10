@@ -26,20 +26,26 @@ const RegistroRetos = ({ navigation }) => {
 
     const registrarReto = async () => {
         if (!titulo.trim()) {
-            Alert.alert("Debe completar el campo con el nombre del reto")
-        }
+            Alert.alert("Debe completar el campo con el nombre del reto");
+            return;
+        };
         if (!descripcion.trim()) {
-            Alert.alert("Debe completar el campo con una descripcion del reto")
-        }
+            Alert.alert("Debe completar el campo con una descripcion del reto");
+            return;
+        };
         if (!categoria.trim()) {
-            Alert.alert("Debe Colocar a que categoria pertenece el reto")
-        }
+            Alert.alert("Debe Colocar a que categoria pertenece el reto");
+            return;
+        };
         if (!fechaLimite.trim()) {
-            Alert.alert("Debe especificar la fecha limite del reto")
-        }
+            Alert.alert("Debe especificar la fecha limite del reto");
+            return;
+        };
         if (!puntajeAsign.trim() || parseInt(puntajeAsign) < 0) {
-            Alert.alert("El puntaje no puede estar vacio ni ser menor que 0")
-        }
+            Alert.alert("El puntaje no puede estar vacio ni ser menor que 0");
+            return;
+        };
+        
         try {
             setLoading(true);
             const reto = {
@@ -48,10 +54,16 @@ const RegistroRetos = ({ navigation }) => {
                 categoria,
                 fechaLimite,
                 puntajeAsign
-            }
+            };
+            console.log('Reto a registrar:', reto);
             const resp = await agregarReto(reto);
             if (resp) {
-                Alert.alert("Su reto se creo correctamente");
+                Alert.alert("Su reto se creo correctamente","",[
+                    {
+                        text: "Aceptar",
+                        onPress: () => navigation.navigate('MenuRetos'),
+                    }
+                ]);
                 LimpiarDatos();
             }
         }
@@ -96,7 +108,7 @@ const RegistroRetos = ({ navigation }) => {
                                 value={puntajeAsign} />
                             <Boton
                                 backgroundColor="green"
-                                titulo="Guardar Reto"
+                                titulo={loading ? "guardando" : "Guardar Reto"}
                                 evento={registrarReto}
                             />
                         </KeyboardAvoidingView>
