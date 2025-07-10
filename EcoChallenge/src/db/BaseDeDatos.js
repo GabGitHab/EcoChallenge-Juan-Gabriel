@@ -4,7 +4,7 @@ let dbInstance = null;
 
 export const getDb = async () => {
   if (!dbInstance) {
-    dbInstance = await SQLite.openDatabaseAsync('eco_challenge.db');
+    dbInstance = await SQLite.openDatabaseAsync('eco_challenge2.db');
   }
   return dbInstance;
 };
@@ -19,6 +19,7 @@ export const iniciarDatabase = async () => {
       CREATE TABLE IF NOT EXISTS Usuarios (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nombre TEXT NOT NULL,
+        contraseña TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
         edad INTEGER,
         barrio TEXT,

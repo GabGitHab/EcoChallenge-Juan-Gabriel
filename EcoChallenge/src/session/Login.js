@@ -19,24 +19,36 @@ const Login = ({ navigation }) => {
 
     const usuarioLogueado = async () => {
         if (!email.trim()) {
-            Alert.alert("Debe ingresar un Email")
+            Alert.alert("Debe ingresar un Email");
+            return;
         }
         if (!contraseña.trim()) {
-            Alert.alert("Debe ingresar una contraseña")
+            Alert.alert("Debe ingresar una contraseña");
+            return;
         }
+
         try {
             const resp = await obtenerUsuarioPorEmail(email.trim());
+
             if (!resp) {
-                Alert.alert("Usuario no registrado")
-                return
-            };
-            setUsuario(resp);
-        }
-        catch (error) {
-            Alert.alert("Error al iniciar sesion");
-            console.log("Error al iniciar sesion: ", error);
+                Alert.alert("Usuario no registrado");
+                return;
+            }
+
+            // 🚨 Comparar la contraseña ingresada con la guardada
+            if (resp.contraseña !== contraseña) {
+                Alert.alert("Contraseña incorrecta");
+                return;
+            }
+
+
+            setUsuario(resp); // Actualiza el contexto de usuario
+            LimpiarDatos();
+        } catch (error) {
+            Alert.alert("Error al iniciar sesión");
+            console.log("Error al iniciar sesión: ", error);
+
         };
-        LimpiarDatos();
     }
 
     return (
@@ -63,12 +75,13 @@ const Login = ({ navigation }) => {
                     titulo=" 🙍‍♂️Ingresar"
                     evento={usuarioLogueado}
                 />
+
+                <Boton
+                    backgroundColor="#d3ffbb"
+                    titulo="Registrar Usuario"
+                    evento={() => navigation.navigate("RegistroUsuario", { id: 0 })}
+                />
             </ScrollView>
-            <Boton
-                backgroundColor="#d3ffbb"
-                titulo="Registrar Usuario"
-                evento={() => navigation.navigate("RegistroUsuario", { id: 0 })}
-            />
         </View >
     )
 }

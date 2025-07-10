@@ -22,6 +22,7 @@ import AgregarParticipacion from "../screens/Retos/AgregarParticipacion";
 import VerReto from "../screens/Retos/VerReto";
 import VerParticipacion from "../screens/Participaciones/VerParticipacion";
 
+
 const AuthStackNavigator = createStackNavigator();
 const AppStackNavigator = createStackNavigator();
 
@@ -46,6 +47,11 @@ const AppStack = () => (
       name="Inicio"
       component={Inicio}
       options={{ title: "Inicio" }}
+    />
+    <AppStackNavigator.Screen
+      name="RegistroUsuario"
+      component={RegistroUsuario}
+      options={{ title: "Registro Usuario" }}
     />
     <AppStackNavigator.Screen
       name="EditarUsuario"

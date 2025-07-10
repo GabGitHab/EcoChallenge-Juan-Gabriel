@@ -3,29 +3,29 @@ import { getDb } from '../db/BaseDeDatos';
 
 // Agregar usuario
 export const agregarUsuario = async (usuario) => {
-  const { nombre, email, edad, barrio, fotoPerfil, puntajeTotal = 0 } = usuario;
+  const { nombre, email, contraseña, edad, barrio, fotoPerfil, puntajeTotal = 0 } = usuario;
 
   try {
     const db = await getDb();
 
     await db.runAsync(
-      `INSERT INTO usuarios (nombre, email, edad, barrio, fotoPerfil, puntajeTotal) 
-       VALUES (?, ?, ?, ?, ?, ?);`,
-      [nombre, email, edad, barrio, fotoPerfil, puntajeTotal]
+      `INSERT INTO Usuarios (nombre, email,contraseña, edad, barrio, fotoPerfil, puntajeTotal) 
+       VALUES (?, ?, ?, ?, ?, ?,?);`,
+      [nombre, email, contraseña, edad, barrio, fotoPerfil, puntajeTotal]
     );
     Alert.alert('Usuario insertado');
-    console.log("usuario insertado");
+    console.log("Usuario insertado");
   } catch (error) {
-    console.log('Error al insertar usuario:', error);
-    Alert.alert('Error al insertar usuario:', error);
+    console.log('Error al insertar Usuario:', error);
+    Alert.alert('Error al insertar Usuario:', error);
   }
 };
 
 // Obtener todos los usuarios
-export const obtenerUsuarios = async () => {  
+export const obtenerUsuarios = async () => {
   try {
     const db = await getDb();
-    const result = await db.getAllAsync('SELECT * FROM usuarios;');
+    const result = await db.getAllAsync('SELECT * FROM Usuarios;');
     console.log('Usuarios obtenidos:', result);
     return result;
   } catch (error) {
@@ -38,7 +38,7 @@ export const obtenerUsuarios = async () => {
 export const obtenerUsuarioPorNombre = async (nombre) => {
   try {
     const db = await getDb();
-    const result = await db.getAllAsync('SELECT * FROM usuarios WHERE nombre = ?;', [nombre]);
+    const result = await db.getAllAsync('SELECT * FROM Usuarios WHERE nombre = ?;', [nombre]);
     return result;
   } catch (error) {
     console.log('Error al obtener usuario:', error);
@@ -49,7 +49,7 @@ export const obtenerUsuarioPorNombre = async (nombre) => {
 export const obtenerUsuarioPorEmail = async (email) => {
   try {
     const db = await getDb();
-    const result = await db.getFirstAsync('SELECT * FROM usuarios WHERE email = ?;', [email]);
+    const result = await db.getFirstAsync('SELECT * FROM Usuarios WHERE email = ?;', [email]);
     return result;
   } catch (error) {
     console.log('Error al obtener usuario por email:', error);
@@ -70,15 +70,15 @@ export const eliminarUsuarioPorId = async (id) => {
 
 // Modificar usuario por ID
 export const modificarUsuario = async (usuarioMod) => {
-  const { id, nombre, email, edad, barrio, fotoPerfil, puntajeTotal } = usuarioMod;
+  const { id, nombre, email, contraseña, edad, barrio, fotoPerfil, puntajeTotal } = usuarioMod;
 
   try {
     const db = await getDb();
     await db.runAsync(
-      `UPDATE usuarios 
-       SET nombre = ?, email = ?, edad = ?, barrio = ?, fotoPerfil = ?, puntajeTotal = ? 
+      `UPDATE Usuarios 
+       SET nombre = ?, email = ?,contraseña?, edad = ?, barrio = ?, fotoPerfil = ?, puntajeTotal = ? 
        WHERE id = ?;`,
-      [nombre, email, edad, barrio, fotoPerfil, puntajeTotal, id]
+      [nombre, email, contraseña, edad, barrio, fotoPerfil, puntajeTotal, id]
     );
     console.log('Usuario modificado');
   } catch (error) {
@@ -93,7 +93,7 @@ export const obtenerUsuarioPorId = async (id) => {
     const result = await db.getFirstAsync('SELECT * FROM usuarios WHERE id = ?;', [idNumber]);
     return result;
   }
-  catch (error){
+  catch (error) {
     console.log('Error al obtener usuario por ID:', error);
     return null;
   };
@@ -104,7 +104,7 @@ export const guardarImagenPerfil = async (id, rutaImagen) => {
   try {
     const db = await getDb();
     await db.runAsync(
-      'UPDATE usuarios SET fotoPerfil = ? WHERE id = ?;', 
+      'UPDATE usuarios SET fotoPerfil = ? WHERE id = ?;',
       [rutaImagen, idnumero],
     )
     Alert.alert('Foto de perfil actualizada exitosamente');
@@ -113,6 +113,6 @@ export const guardarImagenPerfil = async (id, rutaImagen) => {
   catch (error) {
     console.log('Error al actualizar foto de perfil:', error);
     Alert.alert('Error al actualizar foto de perfil:', error.message);
-    }
+  }
 };
 

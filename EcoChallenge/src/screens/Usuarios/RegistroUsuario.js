@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Alert, Image, View, SafeAreaView, ScrollView, KeyboardAvoidingView, Text } from "react-native";
+import { Alert, Image, View, SafeAreaView, ScrollView, KeyboardAvoidingView, Text, TextInput } from "react-native";
 import InputTexto from "../../components/InputTexto";
 import Boton from "../../components/Boton";
 import { agregarUsuario, modificarUsuario, obtenerUsuarioPorId } from "../../fetchers/fetchUsuarios";
@@ -16,9 +16,12 @@ const RegistroUsuario = ({ route, navigation }) => {
     const [barrio, setBarrio] = useState("");
     const [fotoPerfil, setFotoPerfil] = useState("");
     const [imagePreview, setImagePreview] = useState(null);
+    const [contraseña, setContraseña] = useState("")
+    const [confirmarContraseña, setConfirmarContraseña] = useState("")
 
     useEffect(() => {
-        esModificar();
+        esModificar()
+            ;
     }, []);
 
     const LimpiarDatos = () => {
@@ -28,6 +31,7 @@ const RegistroUsuario = ({ route, navigation }) => {
         setBarrio("");
         setFotoPerfil("");
         setImagePreview(null);
+        setContraseña("")
     };
 
     const esModificar = async () => {
@@ -37,10 +41,12 @@ const RegistroUsuario = ({ route, navigation }) => {
                 if (usuarioMod) {
                     setNombre(usuarioMod.nombre);
                     setEmail(usuarioMod.email);
+                    setContraseña(usuarioMod.contraseña);
                     setEdad(usuarioMod.edad.toString());
                     setBarrio(usuarioMod.barrio);
                     setFotoPerfil(usuarioMod.fotoPerfil);
                     setImagePreview(usuarioMod.fotoPerfil);
+
                 } else {
                     Alert.alert("Usuario no encontrado");
                 }
@@ -104,20 +110,33 @@ const RegistroUsuario = ({ route, navigation }) => {
             Alert.alert("Debe completar el campo con el nombre de su Barrio o Zona");
             return;
         }
+        if (!contraseña.trim()) {
+            Alert.alert("Debe ingresar una contraseña")
+            return;
+        }
+        if (!confirmarContraseña.trim() || confirmarContraseña !== contraseña) {
+            Alert.alert("Debe repetir la contraseña")
+            return;
+        }
 
         let rutaFinal = fotoPerfil;
 
         if (fotoPerfil && fotoPerfil.startsWith("file://")) {
             const nombreArchivo = fotoPerfil.split('/').pop();
             const nuevaRuta = FileSystem.documentDirectory + nombreArchivo;
-            try {
-                await FileSystem.copyAsync({
-                    from: fotoPerfil,
-                    to: nuevaRuta
-                });
-                rutaFinal = nuevaRuta;
-            } catch (error) {
-                console.error("Error al guardar la imagen local:", error);
+
+            if (fotoPerfil !== nuevaRuta) {
+                try {
+                    await FileSystem.copyAsync({
+                        from: fotoPerfil,
+                        to: nuevaRuta
+                    });
+                    rutaFinal = nuevaRuta;
+                } catch (error) {
+                    console.error("Error al guardar la imagen local:", error);
+                }
+            } else {
+                rutaFinal = fotoPerfil;
             }
         }
 
@@ -125,6 +144,7 @@ const RegistroUsuario = ({ route, navigation }) => {
             id,
             nombre,
             email,
+            contraseña,
             edad,
             barrio,
             fotoPerfil: rutaFinal || "../components/Iconos/perfil.avif"
@@ -139,7 +159,7 @@ const RegistroUsuario = ({ route, navigation }) => {
                 Alert.alert("Usuario modificado correctamente");
             }
             LimpiarDatos();
-            navigation.navigate("Ingresar");
+            navigation.navigate("Inicio");
         } catch (error) {
             console.log("Error al guardar/modificar usuario: ", error);
         }
@@ -160,6 +180,18 @@ const RegistroUsuario = ({ route, navigation }) => {
                             keyboardType="email-address"
                             onChangeText={setEmail}
                             value={email}
+                        />
+                        <InputTexto
+                            placeholder="Contraseña"
+                            secureTextEntry
+                            onChangeText={setContraseña}
+                            value={contraseña}
+                        />
+                        <InputTexto
+                            placeholder="Repetir Contraseña"
+                            secureTextEntry={true}
+                            onChangeText={setConfirmarContraseña}
+                            value={confirmarContraseña}
                         />
                         <InputTexto
                             placeholder="Edad"

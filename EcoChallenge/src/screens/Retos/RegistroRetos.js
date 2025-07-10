@@ -17,7 +17,7 @@ const RegistroRetos = ({ navigation }) => {
 
 
     const LimpiarDatos = () => {
-        setNombre("")
+        setTitulo("")
         setDescripcion("")
         setCategoria("")
         setFechaLimite("")
@@ -50,17 +50,17 @@ const RegistroRetos = ({ navigation }) => {
                 puntajeAsign
             }
             const resp = await agregarReto(reto);
-            if(resp){
+            if (resp) {
                 Alert.alert("Su reto se creo correctamente");
                 LimpiarDatos();
-            }            
+            }
         }
         catch (error) {
             console.error(error);
             setError(error);
             Alert.alert("Error al registrar el reto.");
         }
-        finally{
+        finally {
             setLoading(false);
         };
     }
@@ -70,7 +70,7 @@ const RegistroRetos = ({ navigation }) => {
             <View>
                 <View>
                     <ScrollView>
-                        <Text style={{ color:"red" }}>{error}</Text>
+                        <Text style={{ color: "red" }}>{error}</Text>
                         <KeyboardAvoidingView>
                             <InputTexto
                                 placeholder="Nombre del Reto"
@@ -87,7 +87,7 @@ const RegistroRetos = ({ navigation }) => {
                             <InputTexto
                                 placeholder="Fecha Limite"
                                 onChangeText={setFechaLimite}
-                                value={fechaLimite} 
+                                value={fechaLimite}
                                 keyboardType="" />
                             <InputTexto
                                 placeholder="Puntaje Asignado"
